@@ -4,6 +4,7 @@ export const en = {
   navCase: "Case study",
   navAbout: "About",
   navContact: "Contact",
+  navMenu: "Menu",
   navTalk: "Let's talk",
   badge: "AVAILABLE FOR PROJECTS + ROLES × ",
   status: "Available",

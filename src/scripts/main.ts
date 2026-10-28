@@ -139,3 +139,35 @@ if (fine) {
 }
 
 schedule();
+
+/* ---------- Navbar: mobile menu, hides on scroll down, returns on a small scroll up ---------- */
+const nav = document.getElementById('site-nav');
+const toggle = document.getElementById('nav-toggle');
+const links = document.getElementById('nav-links');
+if (nav && toggle && links) {
+  const setOpen = (open: boolean) => {
+    links.dataset.open = String(open);
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) nav.dataset.hidden = 'false';
+  };
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  links.addEventListener('click', (e) => {
+    if ((e.target as Element).closest('a')) setOpen(false);
+  });
+  addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+  matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && setOpen(false));
+
+  let lastY = scrollY;
+  addEventListener(
+    'scroll',
+    () => {
+      const y = scrollY;
+      const dy = y - lastY;
+      if (Math.abs(dy) < 6) return;
+      lastY = y;
+      if (toggle.getAttribute('aria-expanded') === 'true') return;
+      nav.dataset.hidden = String(dy > 0 && y > 80);
+    },
+    { passive: true },
+  );
+}

@@ -34,18 +34,16 @@ const chip = 'mono-label press px-[13px] py-[9px] font-medium border border-pape
 ---
 <Layout locale={locale} title={`${t.archKicker} — Matías Carrera`} description={t.archIntro} alternates={alternates}>
   <header class="px-[clamp(20px,4vw,56px)] relative overflow-hidden">
-    <nav class="flex flex-wrap items-center justify-between gap-5 py-5 border-b border-paper/15">
+    <nav class="flex flex-wrap items-center justify-between gap-x-5 gap-y-4 py-5 border-b border-paper/15">
       <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
-      <a href={homeHref(locale)} class="mono-label link-u whitespace-nowrap py-1.5 hover:text-acid">← {t.archHome}</a>
-      <div class="mono-label flex items-center gap-3.5">
-        <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
-          <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
-          <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
-        </div>
-        <a href={`${homeHref(locale)}#contact`} class="press px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap hover:bg-paper">{t.navTalk} ↗</a>
+      <div role="group" aria-label="Language" class="mono-label flex border border-paper/40 font-medium">
+        <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
+        <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
       </div>
+      <a href={`${homeHref(locale)}#contact`} class="mono-label press order-last w-full md:order-none md:w-auto flex justify-center px-3.5 py-3 md:py-2.5 bg-acid text-ink font-medium whitespace-nowrap hover:bg-paper">{t.navTalk} ↗</a>
     </nav>
-    <div class="flex flex-wrap justify-between items-end gap-8 pt-[clamp(48px,7vw,110px)] pb-[clamp(40px,5vw,64px)]">
+    <a href={homeHref(locale)} class="mono-label link-u hidden md:inline-flex gap-2.5 items-center pt-5 whitespace-nowrap hover:text-acid">← {t.archHome}</a>
+    <div class="flex flex-wrap justify-between items-end gap-8 pt-[clamp(32px,5vw,80px)] pb-[clamp(40px,5vw,64px)]">
       <div class="min-w-0">
         <div data-reveal="0" class="mono-label text-mute">(∞) — {t.archKicker}</div>
         <h1 data-reveal="100" data-blur class="display text-[clamp(84px,15vw,260px)] leading-[.82] mt-3.5 mb-0">All<br /><span class="text-acid">work</span></h1>
@@ -59,7 +57,7 @@ const chip = 'mono-label press px-[13px] py-[9px] font-medium border border-pape
 
   <div id="archive">
     <div class="sm:sticky sm:top-0 z-20 bg-ink border-y border-paper px-[clamp(20px,4vw,56px)] py-3.5 flex flex-wrap gap-x-6 gap-y-3 items-center justify-between">
-      <div class="flex flex-wrap gap-2">
+      <div class="hidden sm:flex flex-wrap gap-2">
         {filters.map(([k, label, count]) => (
           <button type="button" data-filter={k} data-active={k === 'all'} class={chip}>{label} <span class="opacity-70">{count}</span></button>
         ))}
