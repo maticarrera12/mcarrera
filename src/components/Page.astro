@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { copy, type Locale } from '../i18n';
+import Hero from './Hero.astro';
+import Work from './Work.astro';
+import Expertise from './Expertise.astro';
+import CaseStudy from './CaseStudy.astro';
+import About from './About.astro';
+import Approach from './Approach.astro';
+import Stack from './Stack.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+<Layout locale={locale} title={`Matías Carrera — ${t.role}`} description={t.heroLead}>
+  <Hero t={t} locale={locale} />
+  <Work t={t} locale={locale} />
+  <Expertise t={t} />
+  <CaseStudy t={t} locale={locale} />
+  <About t={t} />
+  <Approach t={t} />
+  <Stack t={t} locale={locale} />
+  <Contact t={t} />
+  <Footer t={t} />
+</Layout>

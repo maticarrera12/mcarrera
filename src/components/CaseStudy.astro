@@ -1,0 +1,55 @@
+---
+import type { Copy, Locale } from '../i18n';
+import ImageSlot from './ImageSlot.astro';
+import { PROJECTS, projectHref } from '../i18n/projects';
+import { projectImage } from '../data/images';
+
+interface Props { t: Copy; locale: Locale }
+const { t, locale } = Astro.props;
+const head = 'mono-label font-medium';
+const row = 'border-t border-paper/20 pt-7 pb-11 flex flex-col gap-[18px]';
+const badge = 'size-11 bg-cobalt text-acid flex items-center justify-center font-display text-[22px]';
+const para = 'm-0 text-[clamp(19px,1.7vw,24px)] leading-[1.45] text-[#dad7ce] text-pretty';
+const pending = 'mono-label self-start border border-dashed border-paper px-3 py-2';
+const eng = [t.eng1, t.eng2, t.eng3, t.eng4, t.eng5];
+const op = PROJECTS.oneprodex;
+const chips = ['Next.js', 'TypeScript', 'Supabase', 'API-Football', 'Google OAuth'];
+---
+<section id="case" class="bg-ink text-paper px-[clamp(20px,4vw,56px)] py-[clamp(80px,10vw,150px)] relative">
+  <div class="flex flex-wrap gap-[clamp(40px,6vw,96px)]">
+    <div class="flex-[1_1_420px] min-w-0 self-start lg:sticky top-6 flex flex-col gap-6">
+      <div class="flex items-center gap-3 flex-wrap"><span class="mono-label bg-acid text-ink px-3 py-2 font-medium">(04) {t.caseKicker}</span></div>
+      <h2 class="display text-[clamp(76px,10vw,168px)] leading-[.84] m-0">One<br /><span class="text-acid">prodex</span></h2>
+      <div class="mono-label text-mute">{t.caseCat}</div>
+      <div class="relative pr-4 pb-4">
+        <div class="absolute right-0 bottom-0 w-4/5 h-4/5 bg-cobalt"></div>
+        <a href={projectHref(locale, 'oneprodex')} aria-label={`${t.viewProject} — OneProdex`} data-cursor={t.cursorView} data-clip data-delay="150" class="block relative aspect-[4/3] bg-graphite">
+          <ImageSlot id="case-oneprodex" src={projectImage('oneprodex', 'desktop')} placeholder="OneProdex — prediction flow / live table" alt="OneProdex" />
+        </a>
+      </div>
+      <div class="mono-label flex flex-wrap gap-2 text-[11px] font-medium">
+        <span class="bg-cobalt text-paper px-[11px] py-2">{t.chip1}</span>
+        <span class="bg-cobalt text-paper px-[11px] py-2">{t.chip2}</span>
+        <span class="bg-acid text-ink px-[11px] py-2">{t.chip3}</span>
+      </div>
+    </div>
+    <div class="flex-[1.2_1_460px] min-w-0 flex flex-col">
+      <div data-reveal="0" class={row}><div class="flex items-center gap-3.5"><span class={badge}>01</span><span class={head}>{t.caseChallenge}</span></div><p class={para}>{t.c1}</p></div>
+      <div data-reveal="0" class={row}><div class="flex items-center gap-3.5"><span class={badge}>02</span><span class={head}>{t.caseApproach}</span></div><p class={para}>{t.c2}</p></div>
+      <div data-reveal="0" class={row}>
+        <div class="flex items-center gap-3.5"><span class={badge}>03</span><span class={head}>{t.caseEngineering}</span></div>
+        <div class="flex flex-col">
+          {eng.map((e) => (<div class="flex gap-4 py-3.5 border-b border-paper/15 text-lg leading-snug"><span class="font-mono text-acid">→</span>{e}</div>))}
+          <div class="mt-4 flex flex-wrap gap-2">{chips.map((c) => (<span class="mono-label border border-paper/60 px-2.5 py-1.5 text-[11px]">{c}</span>))}</div>
+        </div>
+      </div>
+      <div data-reveal="0" class={row}><div class="flex items-center gap-3.5"><span class={badge}>04</span><span class={head}>{t.caseExperience}</span></div><p class={para}>{t.c4}</p></div>
+      <div data-reveal="0" class={row}>
+        <div class="flex items-center gap-3.5"><span class={badge}>05</span><span class={head}>{t.caseOutcome}</span></div>
+        <p class={para}>{t.c5}</p>
+        <div class="mono-label self-start bg-acid text-ink px-3 py-2 font-medium">{t.c5Stat}</div>
+        <a href={op.url} target="_blank" rel="noopener noreferrer" data-magnetic class="mono-label self-start mt-3 flex gap-3 items-center px-[22px] py-4 bg-acid text-ink font-medium press hover:bg-paper">{t.tryLive} ↗</a>
+      </div>
+    </div>
+  </div>
+</section>

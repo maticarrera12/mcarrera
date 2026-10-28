@@ -1,0 +1,11 @@
+---
+interface Props { id: string; placeholder: string; src?: string; alt?: string; class?: string; priority?: boolean; imgClass?: string; fit?: 'cover' | 'contain' }
+const { id, placeholder, src, alt = '', class: cls = '', priority = false, imgClass = 'object-top', fit = 'cover' } = Astro.props;
+---
+<div data-slot={id} class:list={['absolute inset-0 overflow-hidden', cls]}>
+  {src ? (
+    <img src={src} alt={alt} loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : undefined} decoding="async" class:list={['size-full', fit === 'contain' ? 'object-contain' : 'object-cover', imgClass]} />
+  ) : (
+    <div class="size-full flex items-center justify-center p-4 text-center mono-label text-[11px] text-mute border border-dashed border-paper/25">{placeholder}</div>
+  )}
+</div>

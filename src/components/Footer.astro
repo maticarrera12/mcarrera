@@ -1,0 +1,12 @@
+---
+import type { Copy } from '../i18n';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+---
+<footer class="mono-label bg-ink text-paper px-[clamp(20px,4vw,56px)] py-7 flex flex-wrap justify-between items-center gap-x-8 gap-y-4">
+  <span class="font-display text-2xl">M<span class="text-acid">×</span>C</span>
+  <span class="text-mute">© 2026 Matías Carrera — {t.footerNote}</span>
+  <span class="barcode text-paper w-[90px] h-[22px] block"></span>
+  <a href="#top" class="border-b border-paper pb-[3px] hover:text-acid hover:border-acid">{t.backTop} ↑</a>
+</footer>

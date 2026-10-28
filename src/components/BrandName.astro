@@ -1,0 +1,7 @@
+---
+interface Props { name: string }
+const { name } = Astro.props;
+const [base, ...rest] = name.split('©');
+const marked = rest.length > 0;
+---
+{base}{marked && <sup class="text-[.32em] align-super leading-none ml-[.06em]">©</sup>}

@@ -1,0 +1,31 @@
+---
+import type { Copy } from '../i18n';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const steps = [
+  { n: '01', a: 'Understand', b: 'the problem', body: t.a1 },
+  { n: '02', a: 'Think beyond', b: 'the interface', body: t.a2 },
+  { n: '03', a: 'Build with', b: 'intention', body: t.a3 },
+  { n: '04', a: 'Refine the', b: 'experience', body: t.a4 },
+];
+---
+<section id="approach" class="bg-ink text-paper px-[clamp(20px,4vw,56px)] pb-[clamp(80px,10vw,150px)]">
+  <div class="h-3.5 -mx-[clamp(20px,4vw,56px)] [background-image:repeating-linear-gradient(-45deg,#c5f52a_0_12px,#101010_12px_24px)]"></div>
+  <div class="flex flex-wrap justify-between items-end gap-8 mt-[clamp(66px,8vw,136px)] mb-[clamp(40px,5vw,72px)]">
+    <div data-reveal="0">
+      <div class="mono-label text-mute">(06) — {t.apKicker}</div>
+      <h2 class="display text-[clamp(68px,12vw,200px)] leading-[.84] mt-3.5 mb-0">How I<br /><span class="text-acid">think</span></h2>
+    </div>
+    <p data-reveal="120" class="m-0 max-w-[380px] text-lg leading-normal text-soft text-pretty">{t.apIntro}</p>
+  </div>
+  <div class="border-t border-paper">
+    {steps.map((s, i) => (
+      <div data-reveal="0" class:list={['group flex flex-wrap gap-y-4 gap-x-[clamp(24px,4vw,64px)] items-center py-[clamp(24px,3vw,40px)] px-[clamp(0px,1.5vw,24px)] border-b border-paper/20 transition-colors duration-300 hover:bg-acid hover:text-ink', i === 0 && 'border-paper/20']}>
+        <span class="outline-num text-[clamp(72px,8vw,128px)] leading-[.8] w-[clamp(110px,12vw,180px)]">{s.n}</span>
+        <h3 class="display transition-[translate] duration-300 ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-3 flex-[1_1_280px] text-[clamp(32px,3.4vw,52px)] leading-[.95] m-0">{s.a}<br />{s.b}</h3>
+        <p class="transition-[translate] duration-[400ms] ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-2 flex-[1_1_300px] m-0 text-lg leading-normal max-w-[46ch] text-pretty">{s.body}</p>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,44 @@
+---
+import type { Copy } from '../i18n';
+import Asterisk from './Asterisk.astro';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const items = [
+  { n: '01', title: ['Full stack', 'systems'], body: t.e1, shape: 'square' },
+  { n: '02', title: ['Web', 'applications'], body: t.e2, shape: 'ring' },
+  { n: '03', title: ['Product', 'building'], body: t.e3, shape: 'diamond' },
+  { n: '04', title: ['Creative', 'frontend'], body: t.e4, shape: 'cross' },
+];
+---
+<section id="expertise" class="bg-paper text-ink flex flex-wrap">
+  <div class="flex-[1_1_340px] min-w-0 bg-ink text-paper px-[clamp(20px,4vw,56px)] py-[clamp(56px,7vw,110px)] flex flex-col justify-between gap-12 relative overflow-hidden">
+    <div data-reveal="0" class="relative z-[1]">
+      <div class="mono-label text-mute">(03) — {t.expKicker}</div>
+      <h2 class="display text-[clamp(64px,8vw,136px)] leading-[.84] mt-3.5 mb-[22px]">What I<br /><span class="text-acid">build</span></h2>
+      <p class="m-0 max-w-[34ch] text-lg leading-normal text-soft text-pretty">{t.expIntro}</p>
+    </div>
+    <div class="flex items-end gap-5 relative z-[1]">
+      <Asterisk size={120} bar={24} color="#1f3bd6" />
+      <span class="size-[72px] rounded-full bg-acid block"></span>
+    </div>
+    <div aria-hidden="true" data-wipe data-delay="200" data-speed="0.06" class="brush absolute -left-[10%] bottom-[20%] w-[120%] h-[70px] bg-cobalt -rotate-12 opacity-55"></div>
+  </div>
+  <div class="flex-[2_1_560px] min-w-0 grid grid-cols-1 sm:grid-cols-2 border-t border-ink/20">
+    {items.map((it) => (
+      <div class="border-r border-b border-ink/20 group p-[30px] min-h-[300px] flex flex-col justify-between gap-9 transition-colors duration-300 hover:bg-acid">
+        <div class="flex justify-between items-start">
+          <span class="mono-label">{it.n}</span>
+          {it.shape === 'square' && <span class="size-11 bg-cobalt block transition-[rotate,scale] duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:rotate-90 group-hover:scale-110"></span>}
+          {it.shape === 'ring' && <span class="size-11 border-[3px] border-cobalt rounded-full block transition-[scale] duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:scale-125"></span>}
+          {it.shape === 'diamond' && <span class="size-[30px] bg-cobalt rotate-45 m-[7px] block transition-[rotate] duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:rotate-[225deg]"></span>}
+          {it.shape === 'cross' && <span class="font-display text-[60px] leading-[.7] text-cobalt transition-[rotate] duration-500 ease-[cubic-bezier(.23,1,.32,1)] group-hover:rotate-90">×</span>}
+        </div>
+        <div>
+          <h3 class="display text-[40px] leading-[.95] mt-0 mb-3.5 transition-[translate] duration-300 ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-2">{it.title[0]}<br />{it.title[1]}</h3>
+          <p class="m-0 text-base leading-normal text-pretty">{it.body}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

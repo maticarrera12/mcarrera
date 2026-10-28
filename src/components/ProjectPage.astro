@@ -1,0 +1,201 @@
+---
+import BrandName from './BrandName.astro';
+import Layout from '../layouts/Layout.astro';
+import ImageSlot from './ImageSlot.astro';
+import Footer from './Footer.astro';
+import { projectImage } from '../data/images';
+import { copy, homeHref, type Locale } from '../i18n';
+import { ORDER, PROJECTS, TOTAL, archiveHref, nextSlug, projectHref, type Slug } from '../i18n/projects';
+
+interface Props { locale: Locale; slug: Slug }
+const { locale, slug } = Astro.props;
+const t = copy[locale];
+const p = PROJECTS[slug];
+const next = PROJECTS[nextSlug(slug)];
+const alternates = { en: projectHref('en', slug), es: projectHref('es', slug) };
+const slot = (k: string) => `proj-${slug}-${k}`;
+const img = (name: string) => projectImage(slug, name);
+
+const meta: [string, string, boolean?][] = [
+  [t.mRole, t.fullStack],
+  [t.mType, p.cat[locale].split(' — ')[0]],
+  ...(p.status ? [[t.mStatus, p.status[locale]] as [string, string]] : []),
+  [t.mYear, p.year ?? t.pending, !p.year],
+  [t.mStack, p.stack ?? t.pending, !p.stack],
+];
+const tag = 'mono-label absolute left-0 top-0 px-3 py-2 font-medium pointer-events-none text-[11px]';
+const btn = 'mono-label press flex gap-3 items-center px-6 py-[18px] text-[13px] font-medium';
+---
+<Layout locale={locale} title={`${p.name} — Matías Carrera`} description={p.summary[locale]} alternates={alternates}>
+  <header id="top" class="bg-ink px-[clamp(20px,4vw,56px)] pb-[clamp(56px,7vw,96px)] relative overflow-hidden">
+    <nav class="flex flex-wrap items-center justify-between gap-5 py-5 border-b border-paper/15">
+      <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <a href={archiveHref(locale)} class="mono-label link-u flex gap-2.5 items-center py-1.5 whitespace-nowrap shrink-0 hover:text-acid">← {t.allWork}</a>
+      <div class="mono-label flex items-center gap-3.5">
+        <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
+          <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
+          <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
+        </div>
+        <a href={`${homeHref(locale)}#contact`} class="press px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap hover:bg-paper">{t.navTalk} ↗</a>
+      </div>
+    </nav>
+
+    <div class="mono-label flex justify-between flex-wrap gap-x-6 gap-y-3 py-[18px] text-mute">
+      <span class="whitespace-nowrap">{t.workLabel} / <span class="text-paper">{p.n} — {p.name}</span></span>
+      <div class="flex gap-2">
+        {ORDER.map((k) => (
+          <a href={projectHref(locale, k)} aria-label={PROJECTS[k].name} aria-current={k === slug ? 'page' : undefined}
+            class:list={['press px-[9px] py-1.5 border font-medium', k === slug ? 'bg-acid border-acid text-ink' : 'border-paper/30 text-paper hover:border-acid hover:text-acid']}>{PROJECTS[k].n}</a>
+        ))}
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-[clamp(32px,5vw,72px)] items-end pt-[clamp(16px,3vw,40px)]">
+      <div class="flex-[2_1_560px] min-w-0">
+        <div class="flex flex-wrap items-center gap-x-3.5 gap-y-2.5 mb-[22px]">
+          <span class="mono-label whitespace-nowrap shrink-0 bg-cobalt text-paper px-[13px] py-[9px] font-medium">{p.n} / {TOTAL}</span>
+          <span class="mono-label flex gap-2.5 items-center"><span class="size-2.5 bg-acid block"></span>{p.cat[locale]}</span>
+        </div>
+        <h1 data-reveal="100" data-blur class="display text-[clamp(80px,13vw,224px)] leading-[.84] m-0 [overflow-wrap:anywhere]">{p.nameA}<span class="text-acid"><BrandName name={p.nameB} /></span></h1>
+        <p data-reveal="240" class="display text-[clamp(30px,3.4vw,50px)] leading-none mt-7 mb-0 max-w-[20ch]">{p.tagline[locale]}</p>
+      </div>
+      <div data-reveal="300" class="flex-[1_1_300px] min-w-0 border-t border-paper">
+        {meta.map(([k, v, pend]) => (
+          <div class="mono-label flex justify-between gap-4 py-[15px] border-b border-paper/20">
+            <span class="text-mute whitespace-nowrap">{k}</span>
+            <span class:list={['text-right', pend && 'border border-dashed border-current px-2 py-[3px] whitespace-nowrap']}>{v}</span>
+          </div>
+        ))}
+        {p.url && <a href={p.url} target="_blank" rel="noopener noreferrer" data-magnetic class="mono-label press flex justify-between items-center mt-[18px] px-[22px] py-[18px] bg-acid text-ink text-[13px] font-medium hover:bg-paper"><span>{t.visit}</span><span>↗</span></a>}
+        {p.repo && <a href={p.repo} target="_blank" rel="noopener noreferrer" class="mono-label press flex justify-between items-center mt-2.5 px-[22px] py-[14px] border border-paper text-[13px] font-medium hover:bg-paper hover:text-ink"><span>{t.viewCode}</span><span>↗</span></a>}
+      </div>
+    </div>
+
+    <div data-reveal="0" class="relative mt-[clamp(48px,6vw,88px)] pr-[22px] pb-[22px]">
+      <div class="absolute right-0 bottom-0 w-[70%] h-[84%] bg-cobalt"></div>
+      <div aria-hidden="true" data-speed="0.06" class="spray absolute -left-[6%] -top-[6%] w-[34%] h-[40%] bg-acid pointer-events-none z-[2] [mask-image:radial-gradient(circle,#000_0,transparent_66%)]"></div>
+      <div data-clip data-delay="150" class="relative aspect-[16/10] bg-graphite">
+        <ImageSlot id={slot('cover')} priority src={img('cover')} placeholder={`${p.name} — cover image / hero screen`} alt={p.name} />
+        <span class:list={[tag, 'bg-acid text-ink']}>Fig. {p.n}.1 — Cover</span>
+      </div>
+    </div>
+  </header>
+
+  <div aria-hidden="true" class="h-3.5 [background-image:repeating-linear-gradient(-45deg,#c5f52a_0_12px,#101010_12px_24px)]"></div>
+
+  <section class="bg-paper text-ink px-[clamp(20px,4vw,56px)] py-[clamp(80px,10vw,140px)]">
+    <div class="flex flex-wrap gap-[clamp(40px,6vw,96px)]">
+      <div class="flex-[1.4_1_460px] min-w-0">
+        <div class="mono-label">(01) — {t.overview}</div>
+        <h2 data-reveal="0" class="display text-[clamp(40px,4.8vw,76px)] leading-[.98] mt-[18px] mb-7 text-balance">{p.statement[locale]}</h2>
+        <p data-reveal="100" class="m-0 text-[clamp(18px,1.5vw,21px)] leading-[1.55] max-w-[56ch] text-[#3a3935] text-pretty">{p.summary[locale]}</p>
+      </div>
+      <div data-reveal="150" class="flex-[1_1_320px] min-w-0 self-end">
+        <div class="mono-label pb-3.5 border-b border-ink flex gap-2.5 items-center"><span class="size-2.5 bg-cobalt block"></span>{t.features}</div>
+        {p.features.map((f, i) => (
+          <div class="nudge flex gap-[18px] items-baseline py-[18px] border-b border-ink/20 transition-colors duration-200 hover:bg-acid">
+            <span class="font-mono text-xs text-cobalt font-medium">{String(i + 1).padStart(2, '0')}</span>
+            {f
+              ? <span class="display text-[clamp(24px,2.2vw,32px)] leading-none">{f[locale]}</span>
+              : <span class="mono-label border border-dashed border-ink px-2.5 py-1.5">[ {t.pending} ]</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink text-paper px-[clamp(20px,4vw,56px)] py-[clamp(80px,10vw,140px)]">
+    <div class="mb-[clamp(40px,5vw,64px)]">
+      <div class="mono-label text-mute">(02) — {t.story}</div>
+      <h2 data-reveal="0" class="display text-[clamp(64px,10vw,168px)] leading-[.84] mt-3.5 mb-0">From problem<br />to <span class="text-acid">product</span></h2>
+    </div>
+    <div class="border-t border-paper">
+      {p.blocks.map((b, i) => (
+        <div data-reveal="0" class="flex flex-wrap gap-y-5 gap-x-[clamp(24px,5vw,80px)] py-[clamp(28px,3vw,44px)] border-b border-paper/20">
+          <div class="flex-[0_1_320px] min-w-[220px] flex items-center gap-3.5 self-start">
+            <span class="size-[52px] bg-cobalt text-acid flex items-center justify-center font-display text-[26px]">{String(i + 1).padStart(2, '0')}</span>
+            <span class="display text-[clamp(28px,2.6vw,40px)] leading-[.95]">{b.label[locale]}</span>
+          </div>
+          <div class="flex-[1_1_420px] min-w-0 flex flex-col gap-4">
+            {b.body && <p class="m-0 text-[clamp(19px,1.7vw,24px)] leading-[1.45] text-[#dad7ce] max-w-[52ch] text-pretty">{b.body[locale]}</p>}
+            {b.items?.map((it) => (<div class="flex gap-4 py-3 border-b border-paper/15 text-lg leading-snug max-w-[52ch]"><span class="font-mono text-acid">→</span>{it[locale]}</div>))}
+            {b.chips && <div class="flex flex-wrap gap-2 pt-2">{b.chips.map((c) => (<span class="mono-label border border-paper/60 px-2.5 py-1.5 text-[11px]">{c}</span>))}</div>}
+            {b.scores && (
+              <div class="pt-2">
+                <div class="flex flex-wrap gap-3">
+                  {b.scores.map((sc) => (
+                    <div class="border border-paper/40 px-4 py-3 min-w-[120px]">
+                      <div class="font-display text-[clamp(44px,4vw,64px)] leading-none text-acid">{sc.v}</div>
+                      <div class="mono-label text-[11px] mt-2">{sc.label[locale]}</div>
+                      <div class="mono-label text-[11px] mt-1 text-mute">{locale === 'es' ? 'Móvil' : 'Mobile'} {sc.m}</div>
+                    </div>
+                  ))}
+                </div>
+                {b.note && <div class="mono-label text-[11px] text-mute mt-3">{b.note[locale]}</div>}
+              </div>
+            )}
+            {b.stat && <div class="mono-label self-start bg-acid text-ink px-3 py-2 font-medium">{b.stat[locale]}</div>}
+            {b.pending && <div class="mono-label self-start border border-dashed border-paper px-3 py-2 tracking-[.06em]">{b.pending[locale]}</div>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-cobalt text-paper px-[clamp(20px,4vw,56px)] py-[clamp(80px,10vw,140px)] relative overflow-hidden">
+    <div aria-hidden="true" data-speed="-0.1" class="asterisk-dot text-paper/35 absolute -left-[8%] -bottom-[10%] w-[40%] aspect-square [background-size:12px_12px] [mask-image:radial-gradient(circle,#000_0,transparent_65%)] pointer-events-none"></div>
+    <div class="flex flex-wrap justify-between items-end gap-6 mb-[clamp(40px,5vw,64px)] relative">
+      <div>
+        <div class="mono-label">(03) — {t.gallery}</div>
+        <h2 data-reveal="0" class="display text-[clamp(64px,10vw,168px)] leading-[.84] mt-3.5 mb-0">In <span class="text-acid">detail</span></h2>
+      </div>
+      <p class="m-0 max-w-[36ch] text-[17px] leading-normal">{t.galleryNote}</p>
+    </div>
+    <div class="flex flex-col gap-[clamp(16px,2vw,28px)] relative">
+      <div data-reveal="0" class="relative aspect-[16/10] bg-ink">
+        <ImageSlot id={slot('a')} src={img('desktop')} placeholder="Desktop — key screen" alt={`${p.name} desktop`} />
+        <span class:list={[tag, 'bg-paper text-ink']}>Fig. {p.n}.2 — Desktop</span>
+      </div>
+      <div class="flex flex-wrap gap-[clamp(16px,2vw,28px)] items-start">
+        <div data-reveal="0" class="flex-[1_1_150px] min-w-0 relative aspect-[9/16] bg-ink">
+          <ImageSlot id={slot('b')} src={img('mobile-1')} placeholder="Mobile — screen 1" alt={`${p.name} mobile 1`} />
+          <span class:list={[tag, 'bg-acid text-ink']}>{p.n}.3 — Mobile</span>
+        </div>
+        <div data-reveal="100" class="flex-[1_1_150px] min-w-0 relative aspect-[9/16] bg-ink mt-[clamp(0px,6vw,96px)]">
+          <ImageSlot id={slot('c')} src={img('mobile-2')} placeholder="Mobile — screen 2" alt={`${p.name} mobile 2`} />
+          <span class:list={[tag, 'bg-acid text-ink']}>{p.n}.4 — Mobile</span>
+        </div>
+        <div data-reveal="200" class="flex-[1.6_1_320px] min-w-0 flex flex-col gap-[clamp(16px,2vw,28px)]">
+          <div class="relative aspect-square bg-ink">
+            <ImageSlot id={slot('d')} src={img('detail')} placeholder="UI detail / component close-up" alt={`${p.name} detail`} />
+            <span class:list={[tag, 'bg-paper text-ink']}>{p.n}.5 — Detail</span>
+          </div>
+          <div class="bg-ink p-6 flex flex-col gap-3">
+            <span class="mono-label text-[11px] text-acid">{t.stackTitle}</span>
+            <span class:list={['mono-label self-start border px-[11px] py-[7px]', p.stack ? 'border-paper/60' : 'border-dashed border-paper']}>{p.stack ?? t.pending}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-acid text-ink">
+    <a href={projectHref(locale, nextSlug(slug))} data-cursor={t.cursorNext} class="group flex flex-wrap justify-between items-end gap-8 w-full px-[clamp(20px,4vw,56px)] py-[clamp(56px,8vw,120px)] transition-colors duration-300 hover:bg-[#d3fa55]">
+      <div class="min-w-0">
+        <div class="mono-label font-medium">{t.nextProject} — {next.n} / {TOTAL} · {next.cat[locale]}</div>
+        <div class="display text-[clamp(64px,11vw,190px)] leading-[.86] mt-3.5 [overflow-wrap:anywhere]"><BrandName name={next.name} /></div>
+      </div>
+      <span class="size-[clamp(88px,9vw,140px)] bg-ink text-acid flex items-center justify-center font-display text-[clamp(44px,5vw,72px)] shrink-0 transition-[translate] duration-[400ms] ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-3">→</span>
+    </a>
+  </section>
+
+  <section class="bg-ink text-paper px-[clamp(20px,4vw,56px)] py-[clamp(64px,8vw,110px)] flex flex-wrap justify-between items-end gap-8">
+    <h2 data-reveal="0" class="display text-[clamp(48px,7vw,116px)] leading-[.88] m-0">Have an idea?<br /><span class="text-acid">Let's build it.</span></h2>
+    <div class="flex flex-wrap gap-3">
+      <a href={`${homeHref(locale)}#contact`} data-magnetic class:list={[btn, 'bg-acid text-ink hover:bg-paper']}>{t.clientCta} ↗</a>
+      <a href={`${homeHref(locale)}#contact`} data-magnetic class:list={[btn, 'border border-paper hover:bg-paper hover:text-ink']}>{t.teamCta} ↗</a>
+    </div>
+  </section>
+
+  <Footer t={t} />
+</Layout>

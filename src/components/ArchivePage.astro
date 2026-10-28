@@ -1,0 +1,145 @@
+---
+import BrandName from './BrandName.astro';
+import Layout from '../layouts/Layout.astro';
+import ImageSlot from './ImageSlot.astro';
+import Footer from './Footer.astro';
+import { projectImage } from '../data/images';
+import { copy, homeHref, type Locale } from '../i18n';
+import { ARCHIVE, ORDER, PROJECTS, archiveHref, projectHref, type Group } from '../i18n/projects';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = copy[locale];
+const alternates = { en: archiveHref('en'), es: archiveHref('es') };
+
+const items = ORDER.map((slug, i) => {
+  const p = PROJECTS[slug];
+  const a = ARCHIVE[slug];
+  const tags = a.tags.map((x) => x[locale]);
+  return {
+    slug, n: String(i + 1).padStart(2, '0'), name: p.name, href: projectHref(locale, slug),
+    groups: a.groups.join(' '), tags, tagLine: tags.join(' · '), slot: a.slot, year: p.year ?? t.tbc, cover: projectImage(slug, 'cover'),
+    search: `${p.name} ${tags.join(' ')}`.toLowerCase(),
+  };
+});
+const allFilters: [string, string, number][] = [
+  ['all', t.fAll, items.length],
+  ...([['apps', t.fApps], ['web', t.fWeb], ['ai', t.fAi]] as [Group, string][]).map(
+    ([k, label]) => [k, label, items.filter((x) => x.groups.split(' ').includes(k)).length] as [string, string, number],
+  ),
+];
+const filters = allFilters.filter(([k, , n]) => k === 'all' || n > 0);
+const seg = 'mono-label px-3 py-2 font-medium cursor-pointer data-[active=true]:bg-acid data-[active=true]:text-ink transition-colors duration-150';
+const chip = 'mono-label press px-[13px] py-[9px] font-medium border border-paper/35 cursor-pointer data-[active=true]:bg-acid data-[active=true]:border-acid data-[active=true]:text-ink hover:border-acid';
+---
+<Layout locale={locale} title={`${t.archKicker} — Matías Carrera`} description={t.archIntro} alternates={alternates}>
+  <header class="px-[clamp(20px,4vw,56px)] relative overflow-hidden">
+    <nav class="flex flex-wrap items-center justify-between gap-5 py-5 border-b border-paper/15">
+      <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <a href={homeHref(locale)} class="mono-label link-u whitespace-nowrap py-1.5 hover:text-acid">← {t.archHome}</a>
+      <div class="mono-label flex items-center gap-3.5">
+        <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
+          <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
+          <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
+        </div>
+        <a href={`${homeHref(locale)}#contact`} class="press px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap hover:bg-paper">{t.navTalk} ↗</a>
+      </div>
+    </nav>
+    <div class="flex flex-wrap justify-between items-end gap-8 pt-[clamp(48px,7vw,110px)] pb-[clamp(40px,5vw,64px)]">
+      <div class="min-w-0">
+        <div data-reveal="0" class="mono-label text-mute">(∞) — {t.archKicker}</div>
+        <h1 data-reveal="100" data-blur class="display text-[clamp(84px,15vw,260px)] leading-[.82] mt-3.5 mb-0">All<br /><span class="text-acid">work</span></h1>
+      </div>
+      <div data-reveal="250" class="flex flex-col gap-5 max-w-[380px]">
+        <div class="flex items-end gap-3.5"><span class="outline-num text-paper text-[clamp(72px,8vw,128px)] leading-[.8]">{String(items.length).padStart(2, '0')}</span><span class="mono-label pb-1.5">{t.archProjects}</span></div>
+        <p class="m-0 text-lg leading-normal text-soft text-pretty">{t.archIntro}</p>
+      </div>
+    </div>
+  </header>
+
+  <div id="archive">
+    <div class="sm:sticky sm:top-0 z-20 bg-ink border-y border-paper px-[clamp(20px,4vw,56px)] py-3.5 flex flex-wrap gap-x-6 gap-y-3 items-center justify-between">
+      <div class="flex flex-wrap gap-2">
+        {filters.map(([k, label, count]) => (
+          <button type="button" data-filter={k} data-active={k === 'all'} class={chip}>{label} <span class="opacity-70">{count}</span></button>
+        ))}
+      </div>
+      <div class="flex flex-wrap gap-2.5 items-center">
+        <label class="flex items-center gap-2.5 border border-paper/40 px-3 h-[38px] min-w-[200px] flex-[1_1_200px] focus-within:border-acid transition-colors duration-150">
+          <span class="font-mono text-[13px] text-acid">/</span>
+          <input data-query type="search" placeholder={t.archSearch} aria-label={t.archSearch} class="mono-label flex-1 min-w-0 bg-transparent outline-none text-paper placeholder:text-[#7c7a74]" />
+        </label>
+        <div role="group" aria-label="View" class="flex border border-paper/40">
+          <button type="button" data-view="list" data-active="true" class={seg}>{t.viewList}</button>
+          <button type="button" data-view="grid" data-active="false" class={seg}>{t.viewGrid}</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="px-[clamp(20px,4vw,56px)] pb-[clamp(64px,8vw,120px)]">
+      <div data-panel="list">
+        <div class="mono-label flex gap-4 py-3.5 border-b border-paper/20 text-[11px] text-mute">
+          <span class="w-14 shrink-0">No.</span><span class="flex-[3_1_0] min-w-0">{t.colName}</span><span class="flex-[2_1_0] min-w-0 max-sm:hidden">{t.colCat}</span><span class="w-[110px] shrink-0 text-right max-sm:hidden">{t.colYear}</span><span class="w-10 shrink-0"></span>
+        </div>
+        {items.map((r) => (
+          <a href={r.href} data-item data-key={r.slug} data-groups={r.groups} data-search={r.search} data-preview data-n={r.n} data-name={r.name} data-tags={r.tagLine}
+            class="nudge flex gap-4 items-center py-[22px] border-b border-paper/20 transition-colors duration-[250ms] hover:bg-acid hover:text-ink">
+            <span class="w-14 shrink-0 font-mono text-[13px]">{r.n}</span>
+            <span class="display flex-[3_1_0] min-w-0 text-[clamp(30px,4vw,64px)] leading-[.95]"><BrandName name={r.name} /></span>
+            <span class="flex-[2_1_0] min-w-0 flex flex-wrap gap-1.5 items-center max-sm:hidden">
+              {r.tags.map((tag) => (<span class="mono-label border border-current px-[9px] py-[5px] text-[11px] tracking-[.06em] whitespace-nowrap">{tag}</span>))}
+            </span>
+            <span class="mono-label w-[110px] shrink-0 text-right tracking-[.06em] max-sm:hidden">{r.year}</span>
+            <span class="w-10 shrink-0 text-right text-[22px]">↗</span>
+          </a>
+        ))}
+      </div>
+
+      <div data-panel="grid" hidden class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] [grid-auto-flow:dense] gap-[clamp(16px,2vw,28px)] pt-[clamp(24px,3vw,40px)]">
+        {items.map((r) => (
+          <a href={r.href} data-item data-key={r.slug} data-groups={r.groups} data-search={r.search} class="group flex flex-col gap-4 min-w-0 data-[big]:col-[1/-1]">
+            <div data-cursor={t.cursorView} class="work-img relative aspect-[16/10] group-data-[big]:aspect-video bg-graphite">
+              <ImageSlot id={r.slot} src={r.cover} placeholder={`${r.name} — cover`} alt={r.name} />
+              <span data-tag data-accent="0" class="accent mono-label absolute left-0 top-0 px-3 py-2 font-medium pointer-events-none">{r.n}</span>
+            </div>
+            <div class="flex justify-between gap-4 items-start border-t border-paper/30 pt-3.5">
+              <div class="flex flex-col gap-2 min-w-0">
+                <span class="display text-[clamp(26px,2.4vw,38px)] leading-[.95]"><BrandName name={r.name} /></span>
+                <span class="mono-label text-[11px] text-mute">{r.tagLine}</span>
+              </div>
+              <span class="font-mono text-xs tracking-[.06em] whitespace-nowrap">{r.year} ↗</span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div data-empty hidden class="py-[clamp(64px,8vw,120px)] flex flex-col items-start gap-5 border-b border-paper/20">
+        <span class="display text-[clamp(48px,6vw,96px)] leading-[.9]">{t.emptyA}<br /><span class="text-acid">{t.emptyB}</span></span>
+        <button type="button" data-reset class="mono-label press px-[18px] py-3.5 border border-paper hover:bg-paper hover:text-ink">{t.reset}</button>
+      </div>
+
+      <div class="mono-label flex flex-wrap justify-between items-center gap-4 pt-7 text-mute">
+        <span data-label data-showing={t.showing} data-of={t.of}></span>
+        <button type="button" data-more hidden class="press flex gap-3 items-center px-[22px] py-4 bg-acid text-ink font-medium hover:bg-paper">{t.more} ↓</button>
+      </div>
+    </main>
+  </div>
+
+  <section class="bg-cobalt text-paper px-[clamp(20px,4vw,56px)] py-[clamp(64px,8vw,110px)] flex flex-wrap justify-between items-end gap-8">
+    <h2 data-reveal="0" class="display text-[clamp(48px,7vw,116px)] leading-[.88] m-0">{t.archCtaA}<br /><span class="text-acid">{t.archCtaB}</span></h2>
+    <a href={`${homeHref(locale)}#contact`} data-magnetic class="mono-label press flex gap-3 items-center px-6 py-[18px] bg-acid text-ink text-[13px] font-medium hover:bg-paper">{t.clientCta} ↗</a>
+  </section>
+  <Footer t={t} />
+
+  <div id="preview" aria-hidden="true" class="fixed left-0 top-0 w-[300px] h-[220px] pointer-events-none z-50 opacity-0 transition-opacity duration-200" style="transform:translate(-400px,-400px)">
+    <div data-accent="0" class="accent relative size-full box-border p-[18px] flex flex-col justify-between overflow-hidden shadow-[10px_10px_0_#101010]">
+      <span data-pv-head class="mono-label text-[11px]"></span>
+      <span data-pv-name class="display text-[44px] leading-[.9]"></span>
+      <span data-pv-n class="font-display text-[120px] leading-[.7] absolute right-3.5 bottom-2.5 opacity-25"></span>
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/archive';
+  </script>
+</Layout>

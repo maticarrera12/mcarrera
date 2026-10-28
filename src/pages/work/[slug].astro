@@ -1,0 +1,8 @@
+---
+import ProjectPage from '../../components/ProjectPage.astro';
+import { ORDER } from '../../i18n/projects';
+
+export const getStaticPaths = () => ORDER.map((slug) => ({ params: { slug }, props: { slug } }));
+const { slug } = Astro.props;
+---
+<ProjectPage locale="en" slug={slug} />

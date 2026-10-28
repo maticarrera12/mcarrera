@@ -1,0 +1,41 @@
+---
+import type { Copy } from '../i18n';
+import ImageSlot from './ImageSlot.astro';
+import { siteImage } from '../data/images';
+import Asterisk from './Asterisk.astro';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const facts: [string, string, boolean?][] = [
+  [t.fLoc, 'Buenos Aires, Argentina'],
+  [t.fStudy, t.fStudyV],
+  [t.fFocus, t.fFocusV],
+  [t.fNext, 'Product Engineering', true],
+];
+---
+<section id="about" class="bg-paper text-ink px-[clamp(20px,4vw,56px)] py-[clamp(80px,10vw,150px)] overflow-hidden">
+  <div class="flex flex-wrap gap-[clamp(40px,6vw,96px)] items-center">
+    <div data-reveal="0" class="flex-[1_1_300px] max-w-[480px] min-w-0 relative p-7">
+      <div aria-hidden="true" data-wipe data-delay="300" data-speed="0.07" class="brush absolute -left-[8%] top-[18%] w-[116%] h-[26%] bg-cobalt -rotate-[9deg]"></div>
+      <div aria-hidden="true" data-speed="-0.05" class="asterisk-dot text-cobalt absolute right-0 bottom-0 w-[55%] h-[45%] [background-size:10px_10px]"></div>
+      <div class="relative aspect-[3/4] bg-graphite grayscale contrast-[1.1]">
+        <ImageSlot id="about-portrait" src={siteImage('about')} placeholder="Editorial B&W portrait — working / studio" alt="Matías Carrera" />
+      </div>
+      <div class="absolute left-0 top-0"><Asterisk size={52} bar={11} color="#c5f52a" /></div>
+      <div class="mono-label flex justify-between mt-3.5 text-[11px] text-dim relative"><span>Fig. 02</span><span>Buenos Aires</span></div>
+    </div>
+    <div class="flex-[1.5_1_440px] min-w-0 flex flex-col gap-8">
+      <div class="mono-label">(05) — {t.aboutKicker}</div>
+      <h2 data-reveal="0" class="display text-[clamp(52px,7vw,120px)] leading-[.92] m-0">I don't just<br />write code.<br /><span class="relative inline-block text-cobalt px-[.08em]"><span aria-hidden="true" data-wipe data-delay="500" class="brush absolute -left-[.04em] -right-[.06em] top-[.52em] bottom-[.02em] bg-acid"></span><span class="relative">I build products.</span></span></h2>
+      <p data-reveal="100" class="m-0 text-[clamp(18px,1.5vw,21px)] leading-[1.55] max-w-[56ch] text-[#3a3935] text-pretty">{t.aboutBody}</p>
+      <div data-reveal="200" class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] border-t border-ink">
+        {facts.map(([k, v, hi]) => (
+          <div class="py-[18px] pr-4 border-b border-ink/20 flex flex-col gap-1.5">
+            <span class="mono-label text-[11px] text-dim">{k}</span>
+            <span class:list={['text-[17px]', hi && 'text-cobalt font-semibold']}>{v}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

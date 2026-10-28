@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import type { Locale } from '../i18n';
+
+interface Props { locale: Locale; title: string; description: string; alternates?: Record<Locale, string> }
+const { locale, title, description, alternates = { en: '/', es: '/es/' } } = Astro.props;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="alternate" hreflang="en" href={alternates.en} />
+    <link rel="alternate" hreflang="es" href={alternates.es} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-reveal');
+    </script>
+  </head>
+  <body class="font-sans bg-ink text-paper relative overflow-x-hidden">
+    <svg width="0" height="0" aria-hidden="true" class="absolute">
+      <filter id="mc-brush" x="-15%" y="-40%" width="130%" height="180%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.42" numOctaves="4" seed="7" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G" result="d" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.02 0.9" numOctaves="2" seed="3" result="g" />
+        <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -3 0 0 0 2.35" result="gm" />
+        <feComposite in="d" in2="gm" operator="in" />
+      </filter>
+      <filter id="mc-spray" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="11" result="t" />
+        <feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  10 0 0 0 -6.4" result="m" />
+        <feComposite in="SourceGraphic" in2="m" operator="in" />
+      </filter>
+    </svg>
+
+    <slot />
+
+    <div aria-hidden="true" class="fixed inset-0 pointer-events-none z-40 opacity-[.11] bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22180%22%20height=%22180%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%220.85%22%20numOctaves=%222%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22100%25%22%20height=%22100%25%22%20filter=%22url(%23n)%22/%3E%3C/svg%3E')]"></div>
+    <div id="progress" aria-hidden="true" class="fixed top-0 left-0 h-[3px] w-full bg-acid z-[70] origin-left" style="transform:scaleX(0)"></div>
+    <div id="cursor" aria-hidden="true" class="fixed left-0 top-0 size-24 pointer-events-none z-[60]" style="transform:translate3d(-200px,-200px,0)">
+      <div data-dot class="mono-label size-full rounded-full bg-acid text-ink flex items-center justify-center font-medium tracking-[.1em]"><span>View ↗</span></div>
+    </div>
+
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

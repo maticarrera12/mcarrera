@@ -1,0 +1,89 @@
+---
+import type { Copy, Locale } from '../i18n';
+import ImageSlot from './ImageSlot.astro';
+import { siteImage } from '../data/images';
+
+interface Props { t: Copy; locale: Locale }
+const { t, locale } = Astro.props;
+const heroImage = siteImage('hero');
+const chars = Array.from(t.badge);
+const nav = [
+  ['#work', t.navWork], ['#expertise', t.navExpertise], ['#case', t.navCase], ['#about', t.navAbout], ['#contact', t.navContact],
+] as const;
+const btn = 'mono-label flex items-center gap-3.5 px-6 py-[18px] text-[13px] font-medium';
+---
+<header id="top" class="bg-ink text-paper px-[clamp(20px,4vw,56px)] relative overflow-hidden">
+  <nav class="flex flex-wrap items-center justify-between gap-5 py-5 border-b border-paper/15 relative z-[2]">
+    <a href="#top" aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+    <div class="mono-label flex flex-wrap gap-x-[clamp(16px,2.6vw,36px)] gap-y-1 max-w-full">
+      {nav.map(([href, label]) => (
+        <a href={href} class="link-u py-1.5 whitespace-nowrap shrink-0 hover:text-acid">{label}</a>
+      ))}
+    </div>
+    <div class="mono-label flex items-center gap-3.5">
+      <span class="flex items-center gap-2"><span class="size-2 rounded-full bg-acid block"></span>{t.status}</span>
+      <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
+        <a href="/" hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
+        <a href="/es/" hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
+      </div>
+      <a href="#contact" class="flex gap-2.5 items-center px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap press hover:bg-paper">{t.navTalk} ↗</a>
+    </div>
+  </nav>
+
+  <div class="mono-label grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-8 gap-y-3 py-[18px] text-mute relative z-[2]">
+    <span>(00) — {t.index}</span>
+    <span>Buenos Aires, AR — 34.60°S / 58.38°W</span>
+    <span class="flex justify-end items-center gap-3"><span class="barcode text-paper w-16 h-[18px] block"></span>MC—2026</span>
+  </div>
+
+  <div class="flex flex-wrap gap-[clamp(32px,4vw,56px)] pt-[clamp(8px,2vw,24px)] pb-[clamp(48px,6vw,80px)] items-center relative">
+    <div class="flex-[1_1_540px] min-w-0 relative z-[2]">
+      <h1 data-depth="-7" class="display text-[clamp(84px,13.6vw,232px)] leading-[.84] tracking-[-.005em] m-0">
+        <span data-reveal="100" data-blur class="block">Matías</span>
+        <span data-reveal="240" data-blur class="block text-acid">Carrera</span>
+      </h1>
+      <div data-reveal="200" class="mono-label inline-flex items-center gap-3 mt-[22px] bg-cobalt text-paper px-4 py-3 font-medium"><span class="text-[15px]">↗</span>{t.role}</div>
+      <div data-reveal="280" class="flex flex-wrap gap-x-11 gap-y-7 items-end mt-[clamp(28px,3vw,40px)]">
+        <p class="display text-[clamp(38px,4.6vw,68px)] leading-[.98] m-0">From idea to<br /><span class="relative inline-block px-[.14em] text-ink"><span aria-hidden="true" data-wipe data-delay="900" class="brush absolute -left-[.06em] -right-[.1em] top-[.06em] bottom-[.02em] bg-acid -rotate-[1.5deg]"></span><span class="relative">product.</span></span></p>
+        <p class="text-[clamp(17px,1.35vw,20px)] leading-normal m-0 max-w-[40ch] text-soft text-pretty">{t.heroLead}</p>
+      </div>
+      <div data-reveal="360" class="flex flex-wrap gap-3 mt-[34px]">
+        <a href="#work" data-magnetic class:list={[btn, 'bg-acid text-ink press hover:bg-paper hover:-translate-y-0.5']}>{t.cta1} <span class="text-base">↗</span></a>
+        <a href="#contact" data-magnetic class:list={[btn, 'border border-paper press hover:bg-paper hover:text-ink']}>{t.cta2} <span class="text-base">↗</span></a>
+      </div>
+    </div>
+
+    <div data-reveal="150" class="flex-[1_1_400px] max-w-[620px] min-w-0 relative aspect-[1/1.06]">
+      <div class="absolute inset-0 bg-cobalt [clip-path:polygon(24%_0,100%_0,100%_100%,24%_100%,0_50%)]"></div>
+      <div data-depth="-12" class="asterisk-dot text-acid absolute left-[26%] top-[5%] w-[46%] h-[36%] [background-size:10px_10px] [mask-image:linear-gradient(135deg,#000_10%,transparent_75%)] opacity-85"></div>
+      <div aria-hidden="true" data-wipe data-delay="500" data-depth="20" class="brush absolute left-[8%] top-[42%] w-[90%] h-[15%] bg-acid -rotate-[38deg]"></div>
+      <div aria-hidden="true" data-wipe data-delay="700" data-depth="26" class="brush absolute left-[8%] top-[44%] w-[90%] h-[13%] bg-acid rotate-[36deg]"></div>
+      {heroImage && (
+        <div data-depth="9" class="absolute right-0 bottom-0 h-[86%] aspect-[1583/1489] grayscale contrast-[1.15]">
+          <ImageSlot id="hero-portrait" src={heroImage} placeholder="" imgClass="object-bottom" alt="Matías Carrera" />
+        </div>
+      )}
+      <div aria-hidden="true" data-depth="30" class="spray absolute right-0 top-[8%] w-[30%] h-[26%] bg-acid pointer-events-none [mask-image:radial-gradient(circle_at_60%_40%,#000_0,transparent_68%)]"></div>
+      <div aria-hidden="true" class="absolute left-[24%] top-[3%] size-[30px] pointer-events-none"><div class="absolute left-3.5 top-0 w-0.5 h-[30px] bg-paper"></div><div class="absolute top-3.5 left-0 h-0.5 w-[30px] bg-paper"></div></div>
+      <div data-depth="34" class="absolute left-0 bottom-[4%] w-[clamp(120px,26%,156px)] aspect-square rounded-full bg-ink border border-acid z-[2]">
+        <div class="anim-spin absolute inset-0">
+          {chars.map((ch, i) => (
+            <span class="absolute left-1/2 top-[7%] h-[43%] w-[1em] -ml-[.5em] text-center origin-[50%_100%] font-mono text-[clamp(9px,.75vw,11px)] font-medium text-acid leading-none" style={`transform:rotate(${(360 / chars.length) * i}deg)`}>{ch === ' ' ? ' ' : ch}</span>
+          ))}
+        </div>
+        <span class="absolute inset-0 flex items-center justify-center font-display text-[44px] text-paper">×</span>
+      </div>
+      <span class="mono-label absolute right-[7%] -bottom-6 text-[11px] text-mute">Fig. 01 — Matías Carrera</span>
+    </div>
+  </div>
+</header>
+
+<div aria-label="Design sensibility × Engineering × Product thinking" class="bg-acid text-ink overflow-hidden border-y border-ink py-4">
+  <div class="anim-ticker flex w-max font-display text-[clamp(24px,2.6vw,38px)] leading-none uppercase">
+    {[0, 1].map(() => (
+      <div class="flex items-center gap-7 pr-7 shrink-0">
+        {['Design sensibility', 'Engineering', 'Product thinking', 'Full stack', 'Buenos Aires', 'From idea to product'].map((w) => (<><span>{w}</span><span class="text-cobalt">×</span></>))}
+      </div>
+    ))}
+  </div>
+</div>

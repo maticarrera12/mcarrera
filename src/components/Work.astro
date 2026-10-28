@@ -1,0 +1,113 @@
+---
+import BrandName from './BrandName.astro';
+import type { Copy, Locale } from '../i18n';
+import { projectImage } from '../data/images';
+import { TOTAL, PROJECTS, archiveHref, projectHref } from '../i18n/projects';
+import ImageSlot from './ImageSlot.astro';
+import Asterisk from './Asterisk.astro';
+
+interface Props { t: Copy; locale: Locale }
+const { t, locale } = Astro.props;
+const tag = 'mono-label absolute left-0 top-0 px-3 py-2 font-medium pointer-events-none';
+const stackRow = 'mono-label text-[11px] flex gap-2.5 items-center flex-wrap';
+---
+<section id="work" class="bg-cobalt text-paper px-[clamp(20px,4vw,56px)] py-[clamp(80px,10vw,150px)] relative overflow-hidden">
+  <div aria-hidden="true" data-speed="-0.12" class="asterisk-dot text-paper/35 absolute -right-[6%] -top-[4%] w-[42%] aspect-square [background-size:12px_12px] [mask-image:radial-gradient(circle,#000_0,transparent_65%)] pointer-events-none"></div>
+
+  <div class="flex flex-wrap justify-between items-end gap-8 pb-8 border-b border-paper/40 relative">
+    <div data-reveal="0">
+      <div class="mono-label">(02) — {t.workKicker}</div>
+      <h2 class="display text-[clamp(68px,12vw,200px)] leading-[.84] mt-3.5 mb-0">Selected<br /><span class="text-acid">work <span class="arrow-xl inline-block">↗</span></span></h2>
+    </div>
+    <div data-reveal="120" class="max-w-[380px] flex flex-col gap-[18px]">
+      <Asterisk size={56} bar={12} color="#c5f52a" />
+      <p class="m-0 text-lg leading-normal text-pretty">{t.workIntro}</p>
+      <span class="mono-label text-[#d9deff]">{TOTAL} — {t.projectsCount}</span>
+      <a href={archiveHref(locale)} class="mono-label link-u self-start py-1 font-medium text-acid">{t.allWork} ↗</a>
+    </div>
+  </div>
+
+  <article data-reveal="0" class="flex flex-wrap gap-[clamp(28px,4vw,56px)] py-[clamp(48px,6vw,88px)] border-b border-paper/40 relative">
+    <div class="flex-[1_1_300px] min-w-0 flex flex-col justify-between gap-8">
+      <div>
+        <div class="outline-num text-paper text-[clamp(90px,10vw,150px)] leading-[.8]">01</div>
+        <h3 class="display text-[clamp(48px,5vw,76px)] leading-[.9] mt-7 mb-3.5">Migala</h3>
+        <div class="mono-label flex items-center gap-2.5"><span class="size-2.5 bg-acid block"></span>{t.p1cat}</div>
+      </div>
+      <div class="flex flex-col gap-5">
+        <p class="m-0 text-lg leading-normal max-w-[40ch] text-pretty">{t.p1desc}</p>
+        <div class={stackRow}><span class="text-[#d9deff]">{t.stackLabel}</span><span class="border border-paper/60 px-[9px] py-[5px]">{PROJECTS.migala.stack}</span></div>
+        <a href={projectHref(locale, 'migala')} data-magnetic class="mono-label self-start flex gap-3 items-center px-[18px] py-3.5 bg-acid text-ink font-medium press hover:bg-paper">{t.viewProject} ↗</a>
+      </div>
+    </div>
+    <div class="flex-[2.4_1_560px] min-w-0">
+      <a href={projectHref(locale, 'migala')} aria-label={`${t.viewProject} — Migala`} data-cursor={t.cursorView} data-clip data-delay="120" class="block work-img aspect-[16/10] bg-graphite relative">
+        <ImageSlot id="work-migala" src={projectImage('migala', 'cover')} placeholder="Migala — interface screenshot or video" alt="Migala" />
+        <span class:list={[tag, 'bg-acid text-ink']}>01 / CRM</span>
+      </a>
+    </div>
+  </article>
+
+  <article data-reveal="0" class="bg-ink text-paper my-[clamp(48px,6vw,88px)] flex flex-wrap-reverse gap-[clamp(28px,4vw,56px)] p-[clamp(20px,3vw,40px)] relative">
+    <div class="stripes-acid absolute inset-x-0 top-0 h-2.5"></div>
+    <div class="flex-[2.4_1_560px] min-w-0 mt-3">
+      <a href={projectHref(locale, 'oneprodex')} aria-label={`${t.viewProject} — OneProdex`} data-cursor={t.cursorView} data-clip data-delay="120" class="block work-img aspect-[16/10] bg-graphite relative">
+        <ImageSlot id="work-oneprodex" src={projectImage('oneprodex', 'cover')} placeholder="OneProdex — groups / ranking screen" alt="OneProdex" />
+        <span class:list={[tag, 'bg-cobalt text-paper']}>02 / LIVE</span>
+      </a>
+    </div>
+    <div class="flex-[1_1_300px] min-w-0 flex flex-col justify-between gap-8 pt-5 pb-2">
+      <div>
+        <div class="flex justify-between items-start gap-4">
+          <div class="outline-num text-acid text-[clamp(90px,10vw,150px)] leading-[.8]">02</div>
+          <span class="mono-label bg-acid text-ink px-2.5 py-[7px] text-[11px] font-medium">{t.featured}</span>
+        </div>
+        <h3 class="display text-[clamp(48px,5vw,76px)] leading-[.9] mt-7 mb-3.5">One<span class="text-acid">prodex</span></h3>
+        <div class="mono-label flex items-center gap-2.5"><span class="size-2.5 bg-cobalt block"></span>{t.p2cat}</div>
+      </div>
+      <div class="flex flex-col gap-5">
+        <p class="m-0 text-lg leading-normal max-w-[40ch] text-soft text-pretty">{t.p2desc}</p>
+        <div class={stackRow}><span class="text-mute">{t.stackLabel}</span><span class="border border-paper/60 px-[9px] py-[5px]">{PROJECTS.oneprodex.stack}</span></div>
+        <div class="flex flex-wrap gap-2.5">
+          <a href="#case" class="mono-label flex gap-3 items-center px-[18px] py-3.5 bg-acid text-ink font-medium press hover:bg-paper">{t.readCase} ↓</a>
+          <a href={projectHref(locale, 'oneprodex')} class="mono-label flex gap-3 items-center px-[18px] py-3.5 border border-paper font-medium press hover:bg-paper hover:text-ink">{t.viewProject} ↗</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <div class="flex flex-wrap gap-[clamp(32px,5vw,72px)] items-start relative">
+    {[
+      { n: '03', slug: 'lasalle' as const, title: 'Estudio Lasalle', id: 'work-lasalle', ph: 'Estudio Lasalle — homepage', tag: '03 / WEB', ratio: 'aspect-[4/3]', cat: t.p3cat, desc: t.p3desc, cls: 'flex-[1.45_1_420px]', delay: '0' },
+      { n: '04', slug: 'fuera' as const, title: 'Fuera©', id: 'work-fuera', ph: 'Fuera — homepage', tag: '04 / CONCEPT', ratio: 'aspect-[4/5]', cat: t.p4cat, desc: t.p4desc, cls: 'flex-[1_1_300px] mt-[clamp(0px,9vw,160px)]', delay: '150' },
+    ].map((p) => (
+      <article data-reveal={p.delay} class:list={[p.cls, 'min-w-0 flex flex-col gap-6']}>
+        <a href={projectHref(locale, p.slug)} aria-label={`${t.viewProject} — ${p.title}`} data-cursor={t.cursorView} data-clip data-delay={p.delay} class:list={['block work-img bg-graphite relative', p.ratio]}>
+          <ImageSlot id={p.id} src={projectImage(p.slug, 'cover')} placeholder={p.ph} alt={p.title} />
+          <span class:list={[tag, 'bg-paper text-ink']}>{p.tag}</span>
+        </a>
+        <div class="flex gap-6 items-start border-t border-paper/35 pt-5">
+          <span class="outline-num text-paper text-[56px] leading-[.85]">{p.n}</span>
+          <div class="flex flex-col gap-3 min-w-0">
+            <h3 class="display text-[clamp(36px,3.4vw,52px)] leading-[.92] m-0"><BrandName name={p.title} /></h3>
+            <span class="mono-label flex items-center gap-2.5 text-[#d9deff]"><span class="size-2.5 bg-acid block"></span>{p.cat}</span>
+            <p class="m-0 text-[17px] leading-normal max-w-[44ch] text-pretty">{p.desc}</p>
+            <a href={projectHref(locale, p.slug)} class="mono-label self-start font-medium border-b border-acid text-acid pb-1 hover:text-paper hover:border-paper">{t.viewProject} ↗</a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+  <a href={archiveHref(locale)} data-reveal="0" aria-label={`${t.viewAll} (${TOTAL})`} class="group relative block mt-[clamp(56px,7vw,96px)] pt-6 border-t border-paper/40">
+    <span class="mono-label block text-[#d9deff]">(∞) — {t.archKicker}</span>
+    <span class="display flex flex-wrap items-baseline gap-x-[.22em] text-[clamp(40px,8vw,128px)] leading-[.86] mt-4" aria-hidden="true">
+      <span class="outline-num text-paper transition-[-webkit-text-fill-color] duration-300 ease-[cubic-bezier(.23,1,.32,1)] group-hover:[-webkit-text-fill-color:var(--color-paper)]">See</span>
+      <span class="text-acid">all</span>
+      <span class="inline-flex items-start">
+        <span>work</span>
+        <span class="inline-block text-acid ml-[.08em] transition-[translate] duration-[400ms] ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-[.08em] group-hover:-translate-y-[.08em]">↗</span>
+        <span class="mono-label text-[13px] ml-3 mt-[.6em] text-[#d9deff]">({TOTAL})</span>
+      </span>
+    </span>
+  </a>
+</section>
