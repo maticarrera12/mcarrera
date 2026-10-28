@@ -77,6 +77,12 @@ const btn = 'mono-label press flex flex-1 sm:flex-none gap-3 items-center justif
           </div>
         ))}
         {p.url && <a href={p.url} target="_blank" rel="noopener noreferrer" data-magnetic class="mono-label press flex justify-between items-center mt-[18px] px-[22px] py-[18px] bg-acid text-ink text-[13px] font-medium hover:bg-paper"><span>{t.visit}</span><span>↗</span></a>}
+        {!p.url && p.status && (
+          <div class="mono-label mt-[18px] flex justify-between items-center gap-3 px-[22px] py-[18px] border border-dashed border-paper/50 text-[13px] font-medium text-paper/80" role="status">
+            <span>{t.soon}</span>
+            <span aria-hidden="true" class="size-2.5 rounded-full bg-acid animate-pulse motion-reduce:animate-none"></span>
+          </div>
+        )}
         {p.repo && <a href={p.repo} target="_blank" rel="noopener noreferrer" class="mono-label press flex justify-between items-center mt-2.5 px-[22px] py-[14px] border border-paper text-[13px] font-medium hover:bg-paper hover:text-ink"><span>{t.viewCode}</span><span>↗</span></a>}
       </div>
     </div>
