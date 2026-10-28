@@ -24,22 +24,20 @@ const meta: [string, string, boolean?][] = [
   [t.mStack, p.stack ?? t.pending, !p.stack],
 ];
 const tag = 'mono-label absolute left-0 top-0 px-3 py-2 font-medium pointer-events-none text-[11px]';
-const btn = 'mono-label press flex gap-3 items-center px-6 py-[18px] text-[13px] font-medium';
+const btn = 'mono-label press flex flex-1 sm:flex-none gap-3 items-center justify-center text-center px-3 sm:px-6 py-[18px] text-[11px] sm:text-[13px] font-medium';
 ---
 <Layout locale={locale} title={`${p.name} — Matías Carrera`} description={p.summary[locale]} alternates={alternates}>
   <header id="top" class="bg-ink px-[clamp(20px,4vw,56px)] pb-[clamp(56px,7vw,96px)] relative overflow-hidden">
-    <nav class="flex flex-wrap items-center justify-between gap-5 py-5 border-b border-paper/15">
+    <nav class="flex flex-wrap items-center justify-between gap-x-5 gap-y-4 py-5 border-b border-paper/15">
       <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
-      <a href={archiveHref(locale)} class="mono-label link-u flex gap-2.5 items-center py-1.5 whitespace-nowrap shrink-0 hover:text-acid">← {t.allWork}</a>
-      <div class="mono-label flex items-center gap-3.5">
-        <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
-          <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
-          <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
-        </div>
-        <a href={`${homeHref(locale)}#contact`} class="press px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap hover:bg-paper">{t.navTalk} ↗</a>
+      <div role="group" aria-label="Language" class="mono-label flex border border-paper/40 font-medium">
+        <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
+        <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
       </div>
+      <a href={`${homeHref(locale)}#contact`} class="mono-label press order-last w-full md:order-none md:w-auto flex justify-center px-3.5 py-3 md:py-2.5 bg-acid text-ink font-medium whitespace-nowrap hover:bg-paper">{t.navTalk} ↗</a>
     </nav>
 
+    <a href={archiveHref(locale)} class="mono-label link-u hidden md:inline-flex gap-2.5 items-center pt-5 pb-1 whitespace-nowrap hover:text-acid">← {t.allWork}</a>
     <div class="mono-label flex justify-between flex-wrap gap-x-6 gap-y-3 py-[18px] text-mute">
       <span class="whitespace-nowrap">{t.workLabel} / <span class="text-paper">{p.n} — {p.name}</span></span>
       <div class="flex gap-2">
@@ -180,20 +178,20 @@ const btn = 'mono-label press flex gap-3 items-center px-6 py-[18px] text-[13px]
   </section>
 
   <section class="bg-acid text-ink">
-    <a href={projectHref(locale, nextSlug(slug))} data-cursor={t.cursorNext} class="group flex flex-wrap justify-between items-end gap-8 w-full px-[clamp(20px,4vw,56px)] py-[clamp(56px,8vw,120px)] transition-colors duration-300 hover:bg-[#d3fa55]">
+    <a href={projectHref(locale, nextSlug(slug))} data-cursor={t.cursorNext} class="group flex justify-between items-end gap-4 sm:gap-8 w-full px-[clamp(20px,4vw,56px)] py-[clamp(56px,8vw,120px)] transition-colors duration-300 hover:bg-[#d3fa55]">
       <div class="min-w-0">
         <div class="mono-label font-medium">{t.nextProject} — {next.n} / {TOTAL} · {next.cat[locale]}</div>
-        <div class="display text-[clamp(64px,11vw,190px)] leading-[.86] mt-3.5 [overflow-wrap:anywhere]"><BrandName name={next.name} /></div>
+        <div class="display text-[clamp(48px,11vw,190px)] leading-[.86] mt-3.5 [overflow-wrap:anywhere]"><BrandName name={next.name} /></div>
       </div>
-      <span class="size-[clamp(88px,9vw,140px)] bg-ink text-acid flex items-center justify-center font-display text-[clamp(44px,5vw,72px)] shrink-0 transition-[translate] duration-[400ms] ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-3">→</span>
+      <span class="size-[clamp(56px,9vw,140px)] bg-ink text-acid flex items-center justify-center font-display text-[clamp(32px,5vw,72px)] shrink-0 transition-[translate] duration-[400ms] ease-[cubic-bezier(.23,1,.32,1)] group-hover:translate-x-3">→</span>
     </a>
   </section>
 
   <section class="bg-ink text-paper px-[clamp(20px,4vw,56px)] py-[clamp(64px,8vw,110px)] flex flex-wrap justify-between items-end gap-8">
     <h2 data-reveal="0" class="display text-[clamp(48px,7vw,116px)] leading-[.88] m-0">Have an idea?<br /><span class="text-acid">Let's build it.</span></h2>
-    <div class="flex flex-wrap gap-3">
-      <a href={`${homeHref(locale)}#contact`} data-magnetic class:list={[btn, 'bg-acid text-ink hover:bg-paper']}>{t.clientCta} ↗</a>
-      <a href={`${homeHref(locale)}#contact`} data-magnetic class:list={[btn, 'border border-paper hover:bg-paper hover:text-ink']}>{t.teamCta} ↗</a>
+    <div class="flex gap-2 sm:gap-3 w-full sm:w-auto">
+      <a href={`${homeHref(locale)}#contact`} data-magnetic class:list={[btn, 'bg-acid text-ink hover:bg-paper']}>{t.clientCta}<span class="hidden sm:inline"> ↗</span></a>
+      <a href={`${homeHref(locale)}#contact`} data-magnetic class:list={[btn, 'border border-paper hover:bg-paper hover:text-ink']}>{t.teamCta}<span class="hidden sm:inline"> ↗</span></a>
     </div>
   </section>
 

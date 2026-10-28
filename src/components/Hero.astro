@@ -12,21 +12,34 @@ const nav = [
 ] as const;
 const btn = 'mono-label flex items-center gap-3.5 px-6 py-[18px] text-[13px] font-medium';
 ---
-<header id="top" class="bg-ink text-paper px-[clamp(20px,4vw,56px)] relative overflow-hidden">
-  <nav class="flex flex-wrap items-center justify-between gap-5 py-5 border-b border-paper/15 relative z-[2]">
-    <a href="#top" aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
-    <div class="mono-label flex flex-wrap gap-x-[clamp(16px,2.6vw,36px)] gap-y-1 max-w-full">
-      {nav.map(([href, label]) => (
-        <a href={href} class="link-u py-1.5 whitespace-nowrap shrink-0 hover:text-acid">{label}</a>
-      ))}
-    </div>
-    <div class="mono-label flex items-center gap-3.5">
-      <span class="flex items-center gap-2"><span class="size-2 rounded-full bg-acid block"></span>{t.status}</span>
-      <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
-        <a href="/" hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
-        <a href="/es/" hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
+<header id="top" class="bg-ink text-paper px-[clamp(20px,4vw,56px)] pt-[68px] relative overflow-hidden">
+  <nav id="site-nav" aria-label="Main" class="fixed inset-x-0 top-0 z-50 px-[clamp(20px,4vw,56px)] bg-ink/90 backdrop-blur-md border-b border-paper/15 text-paper transition-transform duration-300 ease-[cubic-bezier(.23,1,.32,1)] motion-reduce:transition-none data-[hidden=true]:-translate-y-full">
+    <div class="flex flex-wrap items-center justify-between gap-x-5 py-[18px]">
+      <a href="#top" aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <div id="nav-links" class="order-last w-full md:order-none md:w-auto grid grid-rows-[0fr] data-[open=true]:grid-rows-[1fr] max-md:invisible max-md:data-[open=true]:visible max-md:transition-[grid-template-rows,visibility] max-md:duration-300 max-md:ease-[cubic-bezier(.23,1,.32,1)] motion-reduce:transition-none md:block">
+        <div class="min-h-0 overflow-hidden md:overflow-visible">
+          <div class="mono-label flex flex-col md:flex-row md:flex-wrap md:gap-x-[clamp(16px,2.6vw,36px)] gap-y-1 max-md:pt-4 max-md:pb-2 max-md:mt-4 max-md:border-t max-md:border-paper/15 max-md:text-[15px]">
+            {nav.map(([href, label]) => (
+              <a href={href} class="link-u py-2.5 md:py-1.5 whitespace-nowrap hover:text-acid">{label}</a>
+            ))}
+            <a href="#contact" class="md:hidden mt-3 flex gap-2.5 items-center justify-center px-3.5 py-3 bg-acid text-ink font-medium press">{t.navTalk} ↗</a>
+          </div>
+        </div>
       </div>
-      <a href="#contact" class="flex gap-2.5 items-center px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap press hover:bg-paper">{t.navTalk} ↗</a>
+      <div class="mono-label flex items-center gap-3.5">
+        <span class="hidden lg:flex items-center gap-2"><span class="size-2 rounded-full bg-acid block"></span>{t.status}</span>
+        <div role="group" aria-label="Language" class="flex border border-paper/40 font-medium">
+          <a href="/" hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
+          <a href="/es/" hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
+        </div>
+        <a href="#contact" class="hidden md:flex gap-2.5 items-center px-3.5 py-2.5 bg-acid text-ink font-medium whitespace-nowrap press hover:bg-paper">{t.navTalk} ↗</a>
+        <button type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label={t.navMenu} class="md:hidden relative size-10 -mr-2 flex items-center justify-center">
+          <span class="relative block w-6 h-3.5">
+            <span class="absolute inset-x-0 top-0 h-0.5 bg-paper transition-transform duration-300 [[aria-expanded=true]_&]:translate-y-[6px] [[aria-expanded=true]_&]:rotate-45"></span>
+            <span class="absolute inset-x-0 bottom-0 h-0.5 bg-paper transition-transform duration-300 [[aria-expanded=true]_&]:-translate-y-[6px] [[aria-expanded=true]_&]:-rotate-45"></span>
+          </span>
+        </button>
+      </div>
     </div>
   </nav>
 
