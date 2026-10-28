@@ -55,6 +55,7 @@ export const en = {
   c5Stat: "50 real users",
   viewCode: "View code",
   mStatus: "Status",
+  soon: "Live version coming soon",
   inDev: "In development",
   cvLabel: "Download (Spanish)",
   viewAll: "View all work",

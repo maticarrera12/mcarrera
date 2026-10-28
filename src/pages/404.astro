@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Asterisk from '../components/Asterisk.astro';
+
+const btn = 'mono-label press flex gap-3 items-center justify-center px-6 py-[18px] text-[13px] font-medium';
+const copy = {
+  en: {
+    kicker: 'Error — page not found',
+    title: 'This page went off-grid.',
+    body: 'The link is broken or the page moved. Nothing here is deliberate.',
+    home: 'Back home', work: 'See all work', homeHref: '/', workHref: '/work/',
+  },
+  es: {
+    kicker: 'Error — página no encontrada',
+    title: 'Esta página se fue de la grilla.',
+    body: 'El link está roto o la página se mudó. Acá nada es deliberado.',
+    home: 'Volver al inicio', work: 'Ver todos los proyectos', homeHref: '/es/', workHref: '/es/work/',
+  },
+} as const;
+---
+<Layout locale="en" title="404 — Page not found | Matías Carrera" description="This page could not be found." noindex>
+  <main class="bg-ink text-paper min-h-svh px-[clamp(20px,4vw,56px)] flex flex-col relative overflow-hidden">
+    <div aria-hidden="true" class="asterisk-dot text-acid/40 absolute -right-[8%] -top-[6%] w-[55%] aspect-square [background-size:12px_12px] [mask-image:radial-gradient(circle,#000_0,transparent_65%)] pointer-events-none"></div>
+
+    <nav class="flex items-center justify-between gap-5 py-5 border-b border-paper/15 relative z-[2]">
+      <a href="/" aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <span class="mono-label text-mute">(404)</span>
+    </nav>
+
+    <section class="flex-1 flex flex-col justify-center gap-[clamp(28px,4vw,48px)] py-[clamp(40px,6vw,80px)] relative z-[2]">
+      {(['en', 'es'] as const).map((l) => (
+        <div data-l={l} hidden={l === 'es'} class="flex flex-col gap-[clamp(28px,4vw,48px)]">
+          <div class="mono-label flex items-center gap-2.5"><span class="size-2.5 bg-acid block"></span>{copy[l].kicker}</div>
+          <div aria-hidden="true" class="display flex items-center gap-[.04em] text-[clamp(120px,24vw,340px)] leading-[.8]">
+            <span class="outline-num text-paper">4</span>
+            <span class="inline-flex items-center justify-center size-[.72em] shrink-0 text-acid">
+              <Asterisk size={380} bar={64} color="#c5f52a" class="!size-full origin-center [&>span]:!w-[16%] [&>span]:!-ml-[8%]" />
+            </span>
+            <span class="outline-num text-paper">4</span>
+          </div>
+          <div class="flex flex-wrap items-end justify-between gap-x-12 gap-y-8">
+            <div>
+              <h1 class="display text-[clamp(40px,5.4vw,84px)] leading-[.92] m-0 max-w-[13ch] text-balance">{copy[l].title}</h1>
+              <p class="text-lg leading-normal text-soft mt-5 mb-0 max-w-[40ch] text-pretty">{copy[l].body}</p>
+            </div>
+            <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+              <a href={copy[l].homeHref} data-magnetic class:list={[btn, 'bg-acid text-ink hover:bg-paper flex-1 sm:flex-none']}>{copy[l].home} <span class="text-base">↗</span></a>
+              <a href={copy[l].workHref} data-magnetic class:list={[btn, 'border border-paper hover:bg-paper hover:text-ink flex-1 sm:flex-none']}>{copy[l].work} <span class="text-base">↗</span></a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <footer class="mono-label py-6 border-t border-paper/15 text-mute relative z-[2]">© 2026 Matías Carrera</footer>
+  </main>
+</Layout>
+
+<script is:inline>
+  // Pick the language from the URL (/es/...) and fall back to the browser language.
+  var es = location.pathname.indexOf('/es') === 0 || (location.pathname.indexOf('/es') !== 0 && /^es\b/i.test(navigator.language));
+  var l = location.pathname.indexOf('/es') === 0 ? 'es' : (es ? 'es' : 'en');
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-l]').forEach(function (el) { el.hidden = el.getAttribute('data-l') !== l; });
+</script>
