@@ -1,4 +1,6 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import BrandName from './BrandName.astro';
 import Layout from '../layouts/Layout.astro';
 import ImageSlot from './ImageSlot.astro';
@@ -23,10 +25,20 @@ const meta: [string, string, boolean?][] = [
   [t.mYear, p.year ?? t.pending, !p.year],
   [t.mStack, p.stack ?? t.pending, !p.stack],
 ];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: p.name,
+  description: p.summary[locale],
+  inLanguage: locale,
+  ...(p.year && { dateCreated: p.year }),
+  ...(p.url && { sameAs: p.url }),
+  author: { '@type': 'Person', name: 'Matías Carrera', url: 'https://mcarreradev.com/' },
+};
 const tag = 'mono-label absolute left-0 top-0 px-3 py-2 font-medium pointer-events-none text-[11px]';
 const btn = 'mono-label press flex flex-1 sm:flex-none gap-3 items-center justify-center text-center px-3 sm:px-6 py-[18px] text-[11px] sm:text-[13px] font-medium';
 ---
-<Layout locale={locale} title={`${p.name} — Matías Carrera`} description={p.summary[locale]} alternates={alternates}>
+<Layout locale={locale} title={`${p.name} · ${p.cat[locale]} | Matías Carrera`} ogImage={existsSync(join(process.cwd(), 'public/og', `${slug}.jpg`)) ? `/og/${slug}.jpg` : undefined} description={p.summary[locale]} alternates={alternates} ogType="article" jsonLd={jsonLd}>
   <header id="top" class="bg-ink px-[clamp(20px,4vw,56px)] pb-[clamp(56px,7vw,96px)] relative overflow-hidden">
     <nav class="flex flex-wrap items-center justify-between gap-x-5 gap-y-4 py-5 border-b border-paper/15">
       <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>

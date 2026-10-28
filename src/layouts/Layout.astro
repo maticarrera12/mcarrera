@@ -2,8 +2,12 @@
 import '../styles/global.css';
 import type { Locale } from '../i18n';
 
-interface Props { locale: Locale; title: string; description: string; alternates?: Record<Locale, string> }
-const { locale, title, description, alternates = { en: '/', es: '/es/' } } = Astro.props;
+interface Props { locale: Locale; title: string; description: string; alternates?: Record<Locale, string>; ogType?: 'website' | 'article'; ogImage?: string; jsonLd?: Record<string, unknown> }
+const { locale, title, description, alternates = { en: '/', es: '/es/' }, ogType = 'website', ogImage: ogImagePath = '/og.png', jsonLd } = Astro.props;
+const abs = (path: string) => new URL(path, Astro.site).href;
+const canonical = abs(Astro.url.pathname);
+const ogImage = abs(ogImagePath);
+const ogLocale = { en: 'en_US', es: 'es_AR' };
 ---
 <!doctype html>
 <html lang={locale}>
@@ -12,8 +16,28 @@ const { locale, title, description, alternates = { en: '/', es: '/es/' } } = Ast
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="alternate" hreflang="en" href={alternates.en} />
-    <link rel="alternate" hreflang="es" href={alternates.es} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={abs(alternates.en)} />
+    <link rel="alternate" hreflang="es" href={abs(alternates.es)} />
+    <link rel="alternate" hreflang="x-default" href={abs(alternates.en)} />
+    <meta name="theme-color" content="#101010" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Matías Carrera" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Matías Carrera — Full Stack Developer and Product Engineer" />
+    <meta property="og:locale" content={ogLocale[locale]} />
+    <meta property="og:locale:alternate" content={ogLocale[locale === 'en' ? 'es' : 'en']} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />

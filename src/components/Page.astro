@@ -10,12 +10,24 @@ import Approach from './Approach.astro';
 import Stack from './Stack.astro';
 import Contact from './Contact.astro';
 import Footer from './Footer.astro';
+import { site } from '../data/site';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = copy[locale];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Matías Carrera',
+  url: 'https://mcarreradev.com/',
+  jobTitle: t.role,
+  description: t.heroLead,
+  email: site.email,
+  address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
+  sameAs: [site.linkedin.url, site.github.url],
+};
 ---
-<Layout locale={locale} title={`Matías Carrera — ${t.role}`} description={t.heroLead}>
+<Layout locale={locale} title={`Matías Carrera — ${t.role}`} description={t.heroLead} jsonLd={jsonLd}>
   <Hero t={t} locale={locale} />
   <Work t={t} locale={locale} />
   <Expertise t={t} />
