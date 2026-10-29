@@ -26,6 +26,8 @@ export const en = {
   pending: "To confirm",
   pendingShort: "link to confirm",
   cursorView: "View ↗",
+  p0cat: "Studio website — web design & development",
+  p0desc: "The website of my own web design and development studio: landing pages, institutional sites and redesigns for brands and small businesses.",
   p1cat: "CRM — event venues",
   p1desc: "A CRM for event venues: event organisation, staff assignment, payment control, stock and a visit calendar in one system.",
   p2cat: "Interactive platform — World Cup 2026",

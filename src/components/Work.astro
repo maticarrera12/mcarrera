@@ -2,9 +2,10 @@
 import BrandName from './BrandName.astro';
 import type { Copy, Locale } from '../i18n';
 import { projectImage } from '../data/images';
-import { TOTAL, PROJECTS, archiveHref, projectHref } from '../i18n/projects';
+import { LANDING_TOTAL, TOTAL, PROJECTS, archiveHref, projectHref } from '../i18n/projects';
 import ImageSlot from './ImageSlot.astro';
 import Asterisk from './Asterisk.astro';
+import WorkFeature from './WorkFeature.astro';
 
 interface Props { t: Copy; locale: Locale }
 const { t, locale } = Astro.props;
@@ -22,31 +23,12 @@ const stackRow = 'mono-label text-[11px] flex gap-2.5 items-center flex-wrap';
     <div data-reveal="120" class="max-w-[380px] flex flex-col gap-[18px]">
       <Asterisk size={56} bar={12} color="#c5f52a" />
       <p class="m-0 text-lg leading-normal text-pretty">{t.workIntro}</p>
-      <span class="mono-label text-[#d9deff]">{TOTAL} — {t.projectsCount}</span>
+      <span class="mono-label text-[#d9deff]">{LANDING_TOTAL} — {t.projectsCount}</span>
       <a href={archiveHref(locale)} class="mono-label link-u self-start py-1 font-medium text-acid">{t.allWork} ↗</a>
     </div>
   </div>
 
-  <article data-reveal="0" class="flex flex-wrap gap-[clamp(28px,4vw,56px)] py-[clamp(48px,6vw,88px)] border-b border-paper/40 relative">
-    <div class="flex-[1_1_300px] min-w-0 flex flex-col justify-between gap-8">
-      <div>
-        <div class="outline-num text-paper text-[clamp(90px,10vw,150px)] leading-[.8]">01</div>
-        <h3 class="display text-[clamp(48px,5vw,76px)] leading-[.9] mt-7 mb-3.5">Migala</h3>
-        <div class="mono-label flex items-center gap-2.5"><span class="size-2.5 bg-acid block"></span>{t.p1cat}</div>
-      </div>
-      <div class="flex flex-col gap-5">
-        <p class="m-0 text-lg leading-normal max-w-[40ch] text-pretty">{t.p1desc}</p>
-        <div class={stackRow}><span class="text-[#d9deff]">{t.stackLabel}</span><span class="border border-paper/60 px-[9px] py-[5px]">{PROJECTS.migala.stack}</span></div>
-        <a href={projectHref(locale, 'migala')} data-magnetic class="mono-label self-start flex gap-3 items-center px-[18px] py-3.5 bg-acid text-ink font-medium press hover:bg-paper">{t.viewProject} ↗</a>
-      </div>
-    </div>
-    <div class="flex-[2.4_1_560px] min-w-0">
-      <a href={projectHref(locale, 'migala')} aria-label={`${t.viewProject} — Migala`} data-cursor={t.cursorView} data-clip data-delay="120" class="block work-img aspect-[16/10] bg-graphite relative">
-        <ImageSlot id="work-migala" src={projectImage('migala', 'cover')} placeholder="Migala — interface screenshot or video" alt="Migala" />
-        <span class:list={[tag, 'bg-acid text-ink']}>01 / CRM</span>
-      </a>
-    </div>
-  </article>
+  <WorkFeature {t} {locale} p={{ n: '01', slug: 'counterpoint' as const, title: 'Counterpoint', id: 'work-counterpoint', ph: 'Counterpoint — homepage', tag: '01 / STUDIO', cat: t.p0cat, desc: t.p0desc }} />
 
   <article data-reveal="0" class="bg-ink text-paper my-[clamp(48px,6vw,88px)] flex flex-wrap-reverse gap-[clamp(28px,4vw,56px)] p-[clamp(20px,3vw,40px)] relative">
     <div class="stripes-acid absolute inset-x-0 top-0 h-2.5"></div>
@@ -76,10 +58,12 @@ const stackRow = 'mono-label text-[11px] flex gap-2.5 items-center flex-wrap';
     </div>
   </article>
 
+  <WorkFeature {t} {locale} p={{ n: '03', slug: 'migala' as const, title: 'Migala', id: 'work-migala', ph: 'Migala — interface screenshot or video', tag: '03 / CRM', cat: t.p1cat, desc: t.p1desc }} />
+
   <div class="flex flex-wrap gap-[clamp(32px,5vw,72px)] items-start relative">
     {[
-      { n: '03', slug: 'lasalle' as const, title: 'Estudio Lasalle', id: 'work-lasalle', ph: 'Estudio Lasalle — homepage', tag: '03 / WEB', ratio: 'aspect-[4/3]', cat: t.p3cat, desc: t.p3desc, cls: 'flex-[1.45_1_420px]', delay: '0' },
-      { n: '04', slug: 'fuera' as const, title: 'Fuera©', id: 'work-fuera', ph: 'Fuera — homepage', tag: '04 / CONCEPT', ratio: 'aspect-[4/5]', cat: t.p4cat, desc: t.p4desc, cls: 'flex-[1_1_300px] mt-[clamp(0px,9vw,160px)]', delay: '150' },
+      { n: '04', slug: 'lasalle' as const, title: 'Estudio Lasalle', id: 'work-lasalle', ph: 'Estudio Lasalle — homepage', tag: '04 / WEB', ratio: 'aspect-[4/3]', cat: t.p3cat, desc: t.p3desc, cls: 'flex-[1.45_1_420px]', delay: '0' },
+      { n: '05', slug: 'fuera' as const, title: 'Fuera©', id: 'work-fuera', ph: 'Fuera — homepage', tag: '05 / CONCEPT', ratio: 'aspect-[4/5]', cat: t.p4cat, desc: t.p4desc, cls: 'flex-[1_1_300px] mt-[clamp(0px,9vw,160px)]', delay: '150' },
     ].map((p) => (
       <article data-reveal={p.delay} class:list={[p.cls, 'min-w-0 flex flex-col gap-6']}>
         <a href={projectHref(locale, p.slug)} aria-label={`${t.viewProject} — ${p.title}`} data-cursor={t.cursorView} data-clip data-delay={p.delay} class:list={['block work-img bg-graphite relative', p.ratio]}>

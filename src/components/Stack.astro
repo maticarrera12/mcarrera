@@ -1,11 +1,11 @@
 ---
 import type { Copy, Locale } from '../i18n';
 import { site } from '../data/site';
-import { ORDER, PROJECTS, TOTAL } from '../i18n/projects';
+import { LANDING, LANDING_TOTAL, PROJECTS } from '../i18n/projects';
 
 interface Props { t: Copy; locale: Locale }
 const { t, locale } = Astro.props;
-const names = ORDER.map((k) => PROJECTS[k].name + (PROJECTS[k].concept ? (locale === 'es' ? ' (conceptual)' : ' (concept)') : '')).join(', ');
+const names = LANDING.map((k) => PROJECTS[k].name + (PROJECTS[k].concept ? (locale === 'es' ? ' (conceptual)' : ' (concept)') : '')).join(', ');
 const label = 'mono-label text-[11px] text-dim';
 const rowCls = 'flex flex-wrap gap-x-6 gap-y-2 items-center py-5 border-b border-ink/20';
 const big = 'font-display text-[clamp(28px,2.8vw,40px)] leading-none uppercase';
@@ -23,13 +23,13 @@ const ev = 'flex gap-4 justify-between items-center py-[18px] border-b border-in
     <div class="flex-[1_1_420px] min-w-0 border-t border-ink">
       <div class={rowCls}><span class:list={[label, 'w-[150px]']}>{t.sLang}</span><span class={big}>TypeScript · Java</span></div>
       <div class={rowCls}><span class:list={[label, 'w-[150px]']}>Frontend</span><span class={big}>React · Next.js · Astro</span></div>
-      <div class={rowCls}><span class:list={[label, 'w-[150px]']}>{t.sData}</span><span class={big}>PostgreSQL · Supabase</span></div>
+      <div class={rowCls}><span class:list={[label, 'w-[150px]']}>{t.sData}</span><span class={big}>MYSQL · PostgreSQL · Supabase</span></div>
       <div class={rowCls}><span class:list={[label, 'w-[150px]']}>{t.sBack}</span><span class={big}>Node.js · Spring Boot · n8n</span></div>
       <div class={rowCls}><span class:list={[label, 'w-[150px]']}>{t.sDesign}</span><span class="text-lg leading-snug">{t.sDesignV}</span></div>
     </div>
     <div class="flex-[1_1_420px] min-w-0">
       <div class="mono-label pb-4 border-b border-ink flex items-center gap-2.5"><span class="size-2.5 bg-cobalt block"></span>{t.evTitle}</div>
-      <a href="#work" class:list={[ev, 'nudge transition-colors duration-200 hover:bg-acid']}><span class="flex flex-col gap-1.5"><span class={label}>{t.ev1k}</span><span class="text-lg">{names}</span></span><span class="font-display text-[40px] leading-none text-cobalt">{TOTAL}</span></a>
+      <a href="#work" class:list={[ev, 'nudge transition-colors duration-200 hover:bg-acid']}><span class="flex flex-col gap-1.5"><span class={label}>{t.ev1k}</span><span class="text-lg">{names}</span></span><span class="font-display text-[40px] leading-none text-cobalt">{LANDING_TOTAL}</span></a>
       <a href={site.github.url} target="_blank" rel="noopener noreferrer" class:list={[ev, 'nudge transition-colors duration-200 hover:bg-acid']}><span class="flex flex-col gap-1.5"><span class={label}>{t.ev2k}</span><span class="text-lg"><span class="font-mono text-[15px]">{site.github.label}</span></span></span><span class="text-xl">↗</span></a>
       <div class={ev}><span class="flex flex-col gap-1.5"><span class={label}>{t.ev3k}</span><span class="text-lg">{t.ev3v}</span></span></div>
       <div class={ev}><span class="flex flex-col gap-1.5"><span class={label}>{t.ev4k}</span><span class="text-lg">{t.ev4v}</span></span></div>

@@ -1,0 +1,34 @@
+---
+import type { Copy, Locale } from '../i18n';
+import { projectImage } from '../data/images';
+import { PROJECTS, projectHref, type Slug } from '../i18n/projects';
+import ImageSlot from './ImageSlot.astro';
+
+interface Props {
+  t: Copy; locale: Locale;
+  p: { n: string; slug: Slug; title: string; id: string; ph: string; tag: string; cat: string; desc: string };
+}
+const { t, locale, p } = Astro.props;
+const tag = 'mono-label absolute left-0 top-0 px-3 py-2 font-medium pointer-events-none';
+const stackRow = 'mono-label text-[11px] flex gap-2.5 items-center flex-wrap';
+---
+<article data-reveal="0" class="flex flex-wrap gap-[clamp(28px,4vw,56px)] py-[clamp(48px,6vw,88px)] border-b border-paper/40 relative">
+  <div class="flex-[1_1_300px] min-w-0 flex flex-col justify-between gap-8">
+    <div>
+      <div class="outline-num text-paper text-[clamp(90px,10vw,150px)] leading-[.8]">{p.n}</div>
+      <h3 class="display text-[clamp(48px,5vw,76px)] leading-[.9] mt-7 mb-3.5">{p.title}</h3>
+      <div class="mono-label flex items-center gap-2.5"><span class="size-2.5 bg-acid block"></span>{p.cat}</div>
+    </div>
+    <div class="flex flex-col gap-5">
+      <p class="m-0 text-lg leading-normal max-w-[40ch] text-pretty">{p.desc}</p>
+      <div class={stackRow}><span class="text-[#d9deff]">{t.stackLabel}</span><span class="border border-paper/60 px-[9px] py-[5px]">{PROJECTS[p.slug].stack}</span></div>
+      <a href={projectHref(locale, p.slug)} data-magnetic class="mono-label self-start flex gap-3 items-center px-[18px] py-3.5 bg-acid text-ink font-medium press hover:bg-paper">{t.viewProject} ↗</a>
+    </div>
+  </div>
+  <div class="flex-[2.4_1_560px] min-w-0">
+    <a href={projectHref(locale, p.slug)} aria-label={`${t.viewProject} — ${p.title}`} data-cursor={t.cursorView} data-clip data-delay="120" class="block work-img aspect-[16/10] bg-graphite relative">
+      <ImageSlot id={p.id} src={projectImage(p.slug, 'cover')} placeholder={p.ph} alt={p.title} />
+      <span class:list={[tag, 'bg-acid text-ink']}>{p.tag}</span>
+    </a>
+  </div>
+</article>

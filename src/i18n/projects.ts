@@ -1,6 +1,6 @@
 import type { Locale } from './index';
 
-export type Slug = 'migala' | 'oneprodex' | 'lasalle' | 'fuera' | 'kiritaai';
+export type Slug = 'migala' | 'oneprodex' | 'lasalle' | 'fuera' | 'kiritaai' | 'mimi' | 'pausa' | 'umbral' | 'counterpoint';
 type L = Record<Locale, string>;
 const L = (en: string, es: string): L => ({ en, es });
 
@@ -12,9 +12,13 @@ export interface Project {
   year?: string; stack?: string; url?: string; repo?: string; status?: L; concept?: boolean;
 }
 
-export const ORDER: Slug[] = ['migala', 'oneprodex', 'lasalle', 'fuera', 'kiritaai'];
+export const ORDER: Slug[] = ['counterpoint', 'migala', 'oneprodex', 'lasalle', 'fuera', 'kiritaai', 'mimi', 'pausa', 'umbral'];
 /** Two-digit project count, derived so adding a project updates every "/ 04" label. */
 export const TOTAL = String(ORDER.length).padStart(2, '0');
+
+/** Projects featured on the landing; the rest only live in /work. */
+export const LANDING: Slug[] = ['counterpoint', 'oneprodex', 'migala', 'lasalle', 'fuera', 'kiritaai'];
+export const LANDING_TOTAL = String(LANDING.length).padStart(2, '0');
 
 export const PROJECTS: Record<Slug, Project> = {
   migala: {
@@ -95,7 +99,72 @@ export const PROJECTS: Record<Slug, Project> = {
       { label: L('The outcome', 'El resultado'), body: L('Launched in 2025 and live at kiritaai.com, with a refreshed visual style.', 'Lanzado en 2025 y online en kiritaai.com, con un estilo visual renovado.'), stat: L('35 users', '35 usuarios') },
     ],
   },
+  mimi: {
+    n: '06', name: 'MIMI & CO.', nameA: 'MIMI ', nameB: '& CO.',
+    concept: true, year: '2026', stack: 'Astro 7 · Tailwind CSS 4 · Three.js',
+    url: 'https://gelato-landing-mu.vercel.app/', repo: 'https://github.com/maticarrera12/gelato-landing', status: L('Concept project', 'Proyecto conceptual'),
+    cat: L('Concept website — gelato shop', 'Sitio conceptual — heladería'),
+    tagline: L('A scoop of gelato, built from scratch as you scroll.', 'Un helado armado desde cero mientras scrolleás.'),
+    statement: L('A gelato shop where the 3D matches the interface.', 'Una heladería donde el 3D es parte de la interfaz.'),
+    summary: L('A single-page site for MIMI & CO., a gelato and candy lab. A portfolio piece with a neo-pop look and a scroll-driven 3D story that assembles a scoop from raw ingredients.', 'Un sitio de una sola página para MIMI & CO., un laboratorio de helados y golosinas. Una pieza de portfolio con estética neo-pop y una historia 3D guiada por el scroll que arma un helado a partir de sus ingredientes.'),
+    features: [L('3D hero cone that assembles itself on load', 'Cono 3D en el hero que se arma solo al cargar'), L('Scroll-driven 3D story that also plays in reverse', 'Historia 3D guiada por el scroll que también se reproduce al revés'), L('Cone builder with spring physics', 'Armador de conos con física de resortes'), L('Catalog, mood matcher and order flow', 'Catálogo, selector por ánimo y flujo de pedido'), L('Cart with a fake checkout and WhatsApp ordering', 'Carrito con checkout simulado y pedido por WhatsApp')],
+    blocks: [
+      { label: L('The idea', 'La idea'), body: L('Make the 3D feel like part of the interface instead of a decoration on top of it: thick ink outlines, hard shadows and a pastel palette shared by the scenes and the UI.', 'Que el 3D se sienta parte de la interfaz y no una decoración encima: contornos gruesos de tinta, sombras duras y una paleta pastel compartida entre las escenas y la UI.') },
+      { label: L('The experience', 'La experiencia'), body: L('A cone builds itself on load, the scroll story takes ingredients to a served scoop, and the visitor can stack their own cone, pick a size and send the order over WhatsApp.', 'Un cono se arma solo al cargar, la historia del scroll lleva los ingredientes hasta un helado servido, y el visitante puede armar su propio cono, elegir un tamaño y enviar el pedido por WhatsApp.') },
+      { label: L('The engineering', 'La ingeniería'), items: [L('Procedural toon-shaded models in Three.js, with no external assets', 'Modelos procedurales con sombreado toon en Three.js, sin assets externos'), L('Scroll story as a pure function of scroll progress', 'Historia del scroll como una función pura del progreso de scroll'), L('Scenes loaded with dynamic imports and paused when offscreen', 'Escenas cargadas con imports dinámicos y pausadas fuera de pantalla'), L('2D fallbacks when WebGL 2 is unavailable', 'Versiones 2D de respaldo cuando no hay WebGL 2')], chips: ['Astro 7', 'Tailwind CSS 4', 'Three.js', 'TypeScript'] },
+      { label: L('The outcome', 'El resultado'), body: L('A concept project, so there are no business results to report. It shows how far a static Astro site can go with 3D and motion, live at gelato-landing-mu.vercel.app.', 'Es un proyecto conceptual, así que no hay resultados de negocio para contar. Muestra hasta dónde llega un sitio estático en Astro con 3D y movimiento, online en gelato-landing-mu.vercel.app.') },
+    ],
+  },
+  pausa: {
+    n: '07', name: 'pausa', nameA: '', nameB: 'pausa',
+    concept: true, year: '2026', stack: 'Astro 7 · Tailwind CSS 4 · TypeScript',
+    url: 'https://pausa-sigma.vercel.app/', repo: 'https://github.com/maticarrera12/pausa', status: L('Concept project', 'Proyecto conceptual'),
+    cat: L('Concept website — designer furniture', 'Sitio conceptual — muebles de autor'),
+    tagline: L('Objects that give shape to a space.', 'Objetos que dan forma a un espacio.'),
+    statement: L('An editorial storefront for a furniture studio.', 'Una tienda editorial para un estudio de muebles de autor.'),
+    summary: L('A concept storefront for a fictional Milan furniture studio, built to show how far a static Astro site can go: editorial layout, a working cart, filters, side panels and forms, with no UI framework.', 'Una tienda conceptual para un estudio de muebles ficticio de Milán, pensada para mostrar hasta dónde llega un sitio estático en Astro: layout editorial, carrito funcional, filtros, paneles laterales y formularios, sin framework de UI.'),
+    features: [L('Editorial layout with offset, asymmetric grids', 'Layout editorial con grillas asimétricas y desplazadas'), L('Working cart keyed by product and finish', 'Carrito funcional por producto y acabado'), L('Filterable catalogue', 'Catálogo filtrable'), L('One side panel for product, bag, journal and service info', 'Un solo panel lateral para producto, bolsa, diario e información de servicio'), L('Showroom booking and newsletter forms', 'Formularios de reserva de visita y newsletter')],
+    blocks: [
+      { label: L('The idea', 'La idea'), body: L('A calm, editorial shop where the objects lead and the interface stays out of the way. The brand, products and people are fictional and no payments are taken.', 'Una tienda calma y editorial donde mandan los objetos y la interfaz se corre del medio. La marca, los productos y las personas son ficticios y no se procesan pagos.') },
+      { label: L('The experience', 'La experiencia'), body: L('Browse eleven pieces by category, open a product in a side panel, choose a finish, fill the bag and book a showroom visit, with motion that stays quiet on repeated actions.', 'Recorrer once piezas por categoría, abrir un producto en un panel lateral, elegir un acabado, llenar la bolsa y reservar una visita al showroom, con un movimiento que se calma en las acciones repetidas.') },
+      { label: L('The engineering', 'La ingeniería'), items: [L('Static HTML from Astro, with about 300 lines of TypeScript for all interactivity', 'HTML estático generado por Astro, con unas 300 líneas de TypeScript para toda la interactividad'), L('Design tokens defined once in Tailwind CSS 4', 'Tokens de diseño definidos una sola vez en Tailwind CSS 4'), L('Native form validation and accessible filter chips', 'Validación nativa de formularios y chips de filtro accesibles')], chips: ['Astro 7', 'Tailwind CSS 4', 'TypeScript'] },
+      { label: L('The outcome', 'El resultado'), body: L('A concept project, so there are no business results to report. It shows a complete shop experience built without a UI framework, live at pausa-sigma.vercel.app.', 'Es un proyecto conceptual, así que no hay resultados de negocio para contar. Muestra una experiencia de tienda completa construida sin framework de UI, online en pausa-sigma.vercel.app.') },
+    ],
+  },
+  umbral: {
+    n: '08', name: 'UMBRAL', nameA: 'UM', nameB: 'BRAL',
+    concept: true, year: '2026', stack: 'Astro', url: 'https://umbral-eight-theta.vercel.app/', status: L('Concept project', 'Proyecto conceptual'),
+    cat: L('Concept website — architecture studio', 'Sitio conceptual — estudio de arquitectura'),
+    tagline: L('Architecture shaped by a way of living.', 'Arquitectura pensada para una forma de vivir.'),
+    statement: L('A portfolio site for a small residential architecture studio.', 'Un sitio de portfolio para un pequeño estudio de arquitectura residencial.'),
+    summary: L('A concept website for UMBRAL, a small residential architecture studio in Buenos Aires, built with Astro. It presents selected works, an indexed list of projects with filters, and the studio’s approach.', 'Un sitio conceptual para UMBRAL, un pequeño estudio de arquitectura residencial de Buenos Aires, desarrollado con Astro. Presenta obras seleccionadas, un índice de proyectos con filtros y el enfoque del estudio.'),
+    features: [L('Selected works with location and year', 'Obras seleccionadas con lugar y año'), L('Project index filterable by type and status', 'Índice de obras filtrable por tipo y estado'), L('Studio approach and working process', 'Enfoque del estudio y forma de trabajo')],
+    blocks: [
+      { label: L('The idea', 'La idea'), body: L('Give an architecture studio a quiet, confident presence where the work speaks first. The studio, its projects and the copy are fictional.', 'Darle a un estudio de arquitectura una presencia tranquila y segura, donde la obra habla primero. El estudio, sus proyectos y los textos son ficticios.') },
+      { label: L('The approach', 'El enfoque'), body: L('Short, plain copy that treats each house as a response to its place, materials and the people who live there, with an index that makes the whole body of work easy to scan.', 'Textos breves y claros que tratan cada casa como una respuesta a su lugar, sus materiales y las personas que la habitan, con un índice que permite recorrer toda la obra de un vistazo.') },
+      { label: L('The engineering', 'La ingeniería'), items: [L('Built with Astro', 'Desarrollado con Astro')], chips: ['Astro'] },
+      { label: L('The outcome', 'El resultado'), body: L('A concept project, so there are no business results to report. It shows a complete, restrained site for an architecture practice, live at umbral-eight-theta.vercel.app.', 'Es un proyecto conceptual, así que no hay resultados de negocio para contar. Muestra un sitio completo y sobrio para un estudio de arquitectura, online en umbral-eight-theta.vercel.app.') },
+    ],
+  },
+  counterpoint: {
+    n: '09', name: 'Counterpoint', nameA: 'Counter', nameB: 'point',
+    year: '2026', stack: 'Astro · Tailwind CSS', url: 'https://www.estudiocounterpoint.com/',
+    cat: L('Studio website — web design & development', 'Sitio de estudio — diseño y desarrollo web'),
+    tagline: L('Nothing is decorative. Everything is deliberate.', 'Nada es decorativo. Todo es deliberado.'),
+    statement: L('The website of my own web design and development studio.', 'El sitio de mi propio estudio de diseño y desarrollo web.'),
+    summary: L('The website for Counterpoint, an independent web design and development studio in Buenos Aires. It builds landing pages, institutional sites and redesigns for brands and small businesses, designing and developing in the same place.', 'El sitio de Counterpoint, un estudio independiente de diseño y desarrollo web en Buenos Aires. Hace landing pages, sitios institucionales y rediseños para marcas y pymes, diseñando y desarrollando en el mismo lugar.'),
+    features: [L('Landing pages, institutional sites and web redesign', 'Landing pages, sitios institucionales y rediseño web'), L('Studio manifesto and process', 'Manifiesto y proceso del estudio'), L('Selected work and case studies', 'Trabajo seleccionado y case studies'), L('Custom identity, typography and animations', 'Identidad, tipografía y animaciones a medida')],
+    blocks: [
+      { label: L('The challenge', 'El desafío'), body: L('A new studio with no template to represent it, and a brand that had to feel its own from the first scroll.', 'Un estudio nuevo, sin plantilla que lo represente y con una marca que debía sentirse propia desde el primer scroll.') },
+      { label: L('The approach', 'El enfoque'), body: L('Structure before style: identity, typography and animations designed to measure, with a manifesto built on the idea of counterpoint, two independent lines that sound together without stepping on each other.', 'Estructura antes que estilo: identidad, tipografía y animaciones diseñadas a medida, con un manifiesto basado en la idea de contrapunto, dos líneas independientes que suenan juntas sin pisarse.') },
+      { label: L('The engineering', 'La ingeniería'), items: [L('Designed and built in Astro and Tailwind CSS, without starting from a template', 'Diseñado y desarrollado en Astro y Tailwind CSS, sin partir de un template'), L('Technical SEO from day one', 'SEO técnico desde el día uno')], chips: ['Astro', 'Tailwind CSS', 'SEO'] },
+      { label: L('The outcome', 'El resultado'), body: L('A lightweight, fast site with a coherent visual language from end to end, live at estudiocounterpoint.com.', 'Un sitio liviano y rápido, con un lenguaje visual coherente de punta a punta, online en estudiocounterpoint.com.') },
+    ],
+  },
 };
+
+/** Project numbers follow ORDER, so reordering never leaves a stale `n`. */
+ORDER.forEach((slug, i) => { PROJECTS[slug].n = String(i + 1).padStart(2, '0'); });
 
 export const projectHref = (locale: Locale, slug: Slug) => `${locale === 'es' ? '/es' : ''}/work/${slug}/`;
 export const nextSlug = (slug: Slug): Slug => ORDER[(ORDER.indexOf(slug) + 1) % ORDER.length];
@@ -108,5 +177,9 @@ export const ARCHIVE: Record<Slug, { groups: Group[]; tags: L[]; slot: string }>
   lasalle: { groups: ['web'], tags: [L('Website', 'Sitio web'), L('Legal', 'Legal')], slot: 'work-lasalle' },
   fuera: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('E-commerce', 'E-commerce')], slot: 'work-fuera' },
   kiritaai: { groups: ['apps', 'ai'], tags: [L('AI', 'IA'), L('Gamified', 'Gamificado')], slot: 'work-kiritaai' },
+  mimi: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('3D', '3D')], slot: 'work-mimi' },
+  pausa: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('E-commerce', 'E-commerce')], slot: 'work-pausa' },
+  umbral: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('Architecture', 'Arquitectura')], slot: 'work-umbral' },
+  counterpoint: { groups: ['web'], tags: [L('Studio', 'Estudio'), L('Website', 'Sitio web')], slot: 'work-counterpoint' },
 };
 export const archiveHref = (locale: Locale) => (locale === 'es' ? '/es/work/' : '/work/');
