@@ -168,10 +168,12 @@ const btn = 'mono-label press flex flex-1 sm:flex-none gap-3 items-center justif
       <p class="m-0 max-w-[36ch] text-[17px] leading-normal">{t.galleryNote}</p>
     </div>
     <div class="flex flex-col gap-[clamp(16px,2vw,28px)] relative">
+      {!p.mobileOnly && (
       <div data-reveal="0" class="relative aspect-[16/10] bg-ink">
         <ImageSlot id={slot('a')} src={img('desktop')} placeholder="Desktop — key screen" alt={`${p.name} desktop`} />
         <span class:list={[tag, 'bg-paper text-ink']}>Fig. {p.n}.2 — Desktop</span>
       </div>
+      )}
       <div class="flex flex-wrap gap-[clamp(16px,2vw,28px)] items-start">
         <div data-reveal="0" class="flex-[1_1_150px] min-w-0 relative aspect-[9/16] bg-ink">
           <ImageSlot id={slot('b')} src={img('mobile-1')} placeholder="Mobile — screen 1" alt={`${p.name} mobile 1`} />
