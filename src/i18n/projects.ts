@@ -1,6 +1,6 @@
 import type { Locale } from './index';
 
-export type Slug = 'migala' | 'oneprodex' | 'lasalle' | 'fuera' | 'kiritaai' | 'mimi' | 'pausa' | 'umbral' | 'counterpoint';
+export type Slug = 'migala' | 'oneprodex' | 'lasalle' | 'fuera' | 'kiritaai' | 'mimi' | 'pausa' | 'umbral' | 'counterpoint' | 'quetedebo';
 type L = Record<Locale, string>;
 const L = (en: string, es: string): L => ({ en, es });
 
@@ -9,10 +9,10 @@ export interface Project {
   n: string; name: string; nameA: string; nameB: string;
   cat: L; tagline: L; statement: L; summary: L;
   features: (L | null)[]; blocks: Block[];
-  year?: string; stack?: string; url?: string; repo?: string; status?: L; concept?: boolean;
+  year?: string; stack?: string; url?: string; repo?: string; status?: L; concept?: boolean; mobileOnly?: boolean;
 }
 
-export const ORDER: Slug[] = ['counterpoint', 'migala', 'oneprodex', 'lasalle', 'fuera', 'kiritaai', 'mimi', 'pausa', 'umbral'];
+export const ORDER: Slug[] = ['counterpoint', 'migala', 'oneprodex', 'lasalle', 'fuera', 'kiritaai', 'mimi', 'pausa', 'umbral', 'quetedebo'];
 /** Two-digit project count, derived so adding a project updates every "/ 04" label. */
 export const TOTAL = String(ORDER.length).padStart(2, '0');
 
@@ -161,6 +161,21 @@ export const PROJECTS: Record<Slug, Project> = {
       { label: L('The outcome', 'El resultado'), body: L('A lightweight, fast site with a coherent visual language from end to end, live at estudiocounterpoint.com.', 'Un sitio liviano y rápido, con un lenguaje visual coherente de punta a punta, online en estudiocounterpoint.com.') },
     ],
   },
+  quetedebo: {
+    n: '10', name: 'quetedebo', nameA: 'que', nameB: 'tedebo',
+    mobileOnly: true, year: '2026', stack: 'React · Vite · PWA', url: 'https://quetedebo.vercel.app/', repo: 'https://github.com/maticarrera12/quetedebo',
+    cat: L('Progressive web app — shared expenses', 'Aplicación web progresiva — gastos compartidos'),
+    tagline: L('Everyone chips in. Everyone ends up even.', 'Todos ponen. Todos terminan iguales.'),
+    statement: L('A small app to settle up after a trip, a get-together or a barbecue.', 'Una app chica para ajustar cuentas después de un viaje, una juntada o un asado.'),
+    summary: L('quetedebo adds up what each person paid at a get-together, trip or barbecue, and works out the shortest set of transfers so everyone ends up even. It is a PWA, so it installs on the phone and feels like a native app.', 'quetedebo suma cuánto puso cada uno en una juntada, un viaje o un asado y calcula el camino más corto de transferencias para que todos queden iguales. Es una PWA: se instala en el celular y se siente como una app nativa.'),
+    features: [L('Record what each person paid', 'Carga de lo que puso cada persona'), L('Shortest set of transfers to settle all debts', 'Camino más corto de transferencias para saldar las deudas'), L('Installable PWA designed for the phone', 'PWA instalable pensada para el celular'), L('History kept in session storage', 'Historial guardado en session storage')],
+    blocks: [
+      { label: L('The challenge', 'El desafío'), body: L('After a group outing nobody remembers who paid what, and settling up turns into a chain of back-and-forth transfers.', 'Después de una salida grupal nadie recuerda quién puso qué, y ajustar cuentas termina en una cadena de transferencias cruzadas.') },
+      { label: L('The approach', 'El enfoque'), body: L('Few screens and one job: enter the amounts, get the minimum number of payments. The interface is designed for the phone first, with no desktop layout to fall back on.', 'Pocas pantallas y una sola tarea: cargar los montos y obtener la mínima cantidad de pagos. La interfaz está pensada primero para el celular, sin versión de escritorio a la que recurrir.') },
+      { label: L('The engineering', 'La ingeniería'), items: [L('Debt-settling algorithm that minimises the number of transfers', 'Algoritmo de saldado de deudas que minimiza la cantidad de transferencias'), L('Installable PWA with a mobile-adapted interface', 'PWA instalable con una interfaz adaptada al celular'), L('History persisted in session storage for now', 'Historial persistido en session storage por ahora')], chips: ['React', 'Vite', 'PWA'] },
+      { label: L('The outcome', 'El resultado'), body: L('A small, fast tool that settles a group’s accounts in a few taps, live at quetedebo.vercel.app.', 'Una herramienta chica y rápida que ajusta las cuentas de un grupo en pocos toques, online en quetedebo.vercel.app.') },
+    ],
+  },
 };
 
 /** Project numbers follow ORDER, so reordering never leaves a stale `n`. */
@@ -180,6 +195,7 @@ export const ARCHIVE: Record<Slug, { groups: Group[]; tags: L[]; slot: string }>
   mimi: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('3D', '3D')], slot: 'work-mimi' },
   pausa: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('E-commerce', 'E-commerce')], slot: 'work-pausa' },
   umbral: { groups: ['web'], tags: [L('Concept', 'Conceptual'), L('Architecture', 'Arquitectura')], slot: 'work-umbral' },
+  quetedebo: { groups: ['apps'], tags: [L('PWA', 'PWA'), L('Mobile', 'Mobile')], slot: 'work-quetedebo' },
   counterpoint: { groups: ['web'], tags: [L('Studio', 'Estudio'), L('Website', 'Sitio web')], slot: 'work-counterpoint' },
 };
 export const archiveHref = (locale: Locale) => (locale === 'es' ? '/es/work/' : '/work/');
