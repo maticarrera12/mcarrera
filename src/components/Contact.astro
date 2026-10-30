@@ -26,13 +26,13 @@ const cardBody = 'm-0 text-[17px] leading-normal text-soft max-w-[42ch] text-pre
       <span class={cardTag}>A — {t.clientLabel}</span>
       <h3 class={cardTitle}>Have a project<br />in mind?</h3>
       <p class={cardBody}>{t.clientBody}</p>
-      <a href={whatsappLink(t.waMessage)} target="_blank" rel="noopener noreferrer" data-magnetic class="mono-label self-start mt-2 flex gap-3 items-center px-6 py-[18px] bg-acid text-ink text-[13px] font-medium press hover:bg-paper">{t.clientCta} ↗</a>
+      <a href={whatsappLink(t.waMessage)} target="_blank" rel="noopener noreferrer" data-magnetic class="mono-label self-start mt-auto flex gap-3 items-center px-6 py-[18px] bg-acid text-ink text-[13px] font-medium press hover:bg-paper">{t.clientCta} ↗</a>
     </div>
     <div data-reveal="100" class={card}>
       <span class={cardTag}>B — {t.teamLabel}</span>
       <h3 class={cardTitle}>Looking for<br />a developer?</h3>
       <p class={cardBody}>{t.teamBody}</p>
-      <a href={`mailto:${site.email}?subject=${encodeURIComponent(t.mailSubject)}`} class="mono-label press self-start mt-2 flex gap-3 items-center px-6 py-[18px] border border-paper text-[13px] font-medium press hover:bg-paper hover:text-ink">{t.teamCta} ↗</a>
+      <a href={`mailto:${site.email}?subject=${encodeURIComponent(t.mailSubject)}`} class="mono-label press self-start mt-auto flex gap-3 items-center px-6 py-[18px] border border-paper text-[13px] font-medium press hover:bg-paper hover:text-ink">{t.teamCta} ↗</a>
     </div>
     <div aria-hidden="true" class="flex-[0_1_260px] min-w-[220px] min-h-[300px] relative">
       <div class="absolute left-0 bottom-0 w-[64%] aspect-square bg-ink rounded-tl-full"></div>
