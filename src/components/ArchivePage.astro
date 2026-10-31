@@ -93,7 +93,7 @@ const chip = 'mono-label press px-[13px] py-[9px] font-medium border border-pape
         ))}
       </div>
 
-      <div data-panel="grid" hidden class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] [grid-auto-flow:dense] gap-[clamp(16px,2vw,28px)] pt-[clamp(24px,3vw,40px)]">
+      <div data-panel="grid" hidden class="grid [--gap:clamp(16px,2vw,28px)] grid-cols-[repeat(auto-fill,minmax(max(min(100%,300px),calc((100%_-_3*var(--gap))/4)),1fr))] [grid-auto-flow:dense] gap-[var(--gap)] pt-[clamp(24px,3vw,40px)]">
         {items.map((r) => (
           <a href={r.href} data-item data-key={r.slug} data-groups={r.groups} data-search={r.search} class="group flex flex-col gap-4 min-w-0 data-[big]:col-[1/-1]">
             <div data-cursor={t.cursorView} class="work-img relative aspect-[16/10] group-data-[big]:aspect-video bg-graphite">

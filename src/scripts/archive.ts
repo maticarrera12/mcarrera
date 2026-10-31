@@ -1,4 +1,4 @@
-const PAGE = 8;
+const PAGE = 10;
 const root = document.getElementById('archive');
 
 if (root) {
