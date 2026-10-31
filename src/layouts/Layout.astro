@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import type { Locale } from '../i18n';
 
 interface Props { locale: Locale; title: string; description: string; alternates?: Record<Locale, string>; ogType?: 'website' | 'article'; ogImage?: string; noindex?: boolean; jsonLd?: Record<string, unknown> }
@@ -44,6 +45,7 @@ const ogLocale = { en: 'en_US', es: 'es_AR' };
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <Analytics />
+    <SpeedInsights />
     <script is:inline>
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-reveal');
     </script>
