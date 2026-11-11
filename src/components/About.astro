@@ -27,7 +27,7 @@ const facts: [string, string, boolean?][] = [
     <div class="flex-[1.5_1_440px] min-w-0 flex flex-col gap-8">
       <div class="mono-label">(05) — {t.aboutKicker}</div>
       <h2 data-reveal="0" class="display text-[clamp(52px,7vw,120px)] leading-[.92] m-0">I don't just<br />write code.<br /><span class="relative inline-block text-cobalt px-[.08em]"><span aria-hidden="true" data-wipe data-delay="500" class="brush absolute -left-[.04em] -right-[.06em] top-[.52em] bottom-[.02em] bg-acid"></span><span class="relative">I build products.</span></span></h2>
-      <p data-reveal="100" class="m-0 text-[clamp(18px,1.5vw,21px)] leading-[1.55] max-w-[56ch] text-[#3a3935] text-pretty">{t.aboutBody}</p>
+      <p data-reveal="100" data-fill class="m-0 text-[clamp(26px,2.7vw,44px)] leading-[1.12] font-semibold tracking-[-.02em] text-ink">{t.aboutBody}</p>
       <div data-reveal="200" class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] border-t border-ink">
         {facts.map(([k, v, hi]) => (
           <div class="py-[18px] pr-4 border-b border-ink/20 flex flex-col gap-1.5">
