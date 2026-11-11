@@ -1,0 +1,5 @@
+---
+interface Props { class?: string }
+const { class: className = 'h-7 w-auto' } = Astro.props;
+---
+<img src="/images/logo-white.png" alt="" width="180" height="110" class={`block ${className}`} decoding="async" />

@@ -1,4 +1,5 @@
 ---
+import Logo from '../components/Logo.astro';
 import Layout from '../layouts/Layout.astro';
 import Asterisk from '../components/Asterisk.astro';
 
@@ -23,7 +24,7 @@ const copy = {
     <div aria-hidden="true" class="asterisk-dot text-acid/40 absolute -right-[8%] -top-[6%] w-[55%] aspect-square [background-size:12px_12px] [mask-image:radial-gradient(circle,#000_0,transparent_65%)] pointer-events-none"></div>
 
     <nav class="flex items-center justify-between gap-5 py-5 border-b border-paper/15 relative z-[2]">
-      <a href="/" aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <a href="/" aria-label="Matías Carrera" class="block"><Logo class="h-7 w-auto" /></a>
       <span class="mono-label text-mute">(404)</span>
     </nav>
 

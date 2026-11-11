@@ -1,4 +1,5 @@
 ---
+import Logo from './Logo.astro';
 import BrandName from './BrandName.astro';
 import Layout from '../layouts/Layout.astro';
 import ImageSlot from './ImageSlot.astro';
@@ -35,7 +36,7 @@ const chip = 'mono-label press px-[13px] py-[9px] font-medium border border-pape
 <Layout locale={locale} title={`${t.archKicker} — Matías Carrera`} description={t.archIntro} alternates={alternates}>
   <header class="px-[clamp(20px,4vw,56px)] relative overflow-hidden">
     <nav class="flex flex-wrap items-center justify-between gap-x-5 gap-y-4 py-5 border-b border-paper/15">
-      <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <a href={homeHref(locale)} aria-label="Matías Carrera" class="block"><Logo class="h-7 w-auto" /></a>
       <div role="group" aria-label="Language" class="mono-label flex border border-paper/40 font-medium">
         <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
         <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>
