@@ -1,4 +1,5 @@
 ---
+import Logo from './Logo.astro';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import BrandName from './BrandName.astro';
@@ -41,7 +42,7 @@ const btn = 'mono-label press flex flex-1 sm:flex-none gap-3 items-center justif
 <Layout locale={locale} title={`${p.name} · ${p.cat[locale]} | Matías Carrera`} ogImage={existsSync(join(process.cwd(), 'public/og', `${slug}.jpg`)) ? `/og/${slug}.jpg` : undefined} description={p.summary[locale]} alternates={alternates} ogType="article" jsonLd={jsonLd}>
   <header id="top" class="bg-ink px-[clamp(20px,4vw,56px)] pb-[clamp(56px,7vw,96px)] relative overflow-hidden">
     <nav class="flex flex-wrap items-center justify-between gap-x-5 gap-y-4 py-5 border-b border-paper/15">
-      <a href={homeHref(locale)} aria-label="Matías Carrera" class="font-display text-[30px] leading-none flex items-baseline gap-0.5">M<span class="text-acid">×</span>C</a>
+      <a href={homeHref(locale)} aria-label="Matías Carrera" class="block"><Logo class="h-7 w-auto" /></a>
       <div role="group" aria-label="Language" class="mono-label flex border border-paper/40 font-medium">
         <a href={alternates.en} hreflang="en" aria-current={locale === 'en' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'en' ? 'bg-acid text-ink' : 'text-paper']}>EN</a>
         <a href={alternates.es} hreflang="es" aria-current={locale === 'es' ? 'true' : undefined} class:list={['px-2.5 py-1.5', locale === 'es' ? 'bg-acid text-ink' : 'text-paper']}>ES</a>

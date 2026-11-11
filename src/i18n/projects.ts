@@ -12,7 +12,7 @@ export interface Project {
   year?: string; stack?: string; url?: string; repo?: string; status?: L; concept?: boolean; mobileOnly?: boolean;
 }
 
-export const ORDER: Slug[] = ['counterpoint', 'migala', 'oneprodex', 'lasalle', 'fuera', 'kiritaai', 'mimi', 'pausa', 'umbral', 'quetedebo'];
+export const ORDER: Slug[] = ['counterpoint', 'migala', 'oneprodex', 'lasalle', 'fuera', 'umbral', 'kiritaai', 'mimi', 'pausa', 'quetedebo'];
 /** Two-digit project count, derived so adding a project updates every "/ 04" label. */
 export const TOTAL = String(ORDER.length).padStart(2, '0');
 

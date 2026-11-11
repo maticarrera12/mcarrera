@@ -66,6 +66,71 @@ if (!reduced) {
   });
 }
 
+/* ---------- Scroll-driven text fill ----------
+ * Same timing model as a scrubbed GSAP timeline: every line is a staggered tween of its characters
+ * (opacity FILL_MIN -> 1), and each line starts FILL_LINE_STAGGER after the previous one without
+ * waiting for it to finish, so the fill sweeps diagonally.
+ * Timing is proportional to the line, not to its character count: every line takes FILL_LINE_DURATION
+ * and its soft edge is FILL_CHAR_DURATION / FILL_LINE_DURATION of the width, so the front stays one
+ * clean diagonal on any viewport (a fixed per-character stagger skews it as lines get longer).
+ */
+const FILL_MIN = 0.2;
+const FILL_CHAR_DURATION = 0.5;
+const FILL_LINE_DURATION = 2.9;
+const FILL_LINE_STAGGER = 0.3;
+type FillLine = { chars: HTMLElement[]; stagger: number };
+type Fill = { el: HTMLElement; chars: HTMLElement[]; lines: FillLine[]; total: number; last: number };
+const fills: Fill[] = [];
+
+function splitLines(f: Fill) {
+  const rows: HTMLElement[][] = [];
+  let top = -Infinity;
+  for (const c of f.chars) {
+    const t = c.getBoundingClientRect().top;
+    if (t > top + 2) rows.push([]);
+    top = t;
+    rows[rows.length - 1].push(c);
+  }
+  f.lines = rows.map((chars) => ({
+    chars,
+    stagger: chars.length > 1 ? (FILL_LINE_DURATION - FILL_CHAR_DURATION) / (chars.length - 1) : 0,
+  }));
+  f.total = (rows.length - 1) * FILL_LINE_STAGGER + FILL_LINE_DURATION;
+  f.last = -1;
+}
+
+if (!reduced) {
+  document.querySelectorAll<HTMLElement>('[data-fill]').forEach((el) => {
+    const text = (el.textContent ?? '').trim();
+    const visual = document.createElement('span');
+    visual.setAttribute('aria-hidden', 'true');
+    const chars: HTMLElement[] = [];
+    text.split(/\s+/).forEach((word, wi) => {
+      if (wi) visual.append(' ');
+      const w = document.createElement('span');
+      w.style.display = 'inline-block'; // keeps words unbroken across lines
+      for (const ch of word) {
+        const c = document.createElement('span');
+        c.textContent = ch;
+        c.style.opacity = String(FILL_MIN);
+        chars.push(c);
+        w.append(c);
+      }
+      visual.append(w);
+    });
+    const sr = document.createElement('span');
+    sr.className = 'sr-only';
+    sr.textContent = text;
+    el.replaceChildren(sr, visual);
+    const f: Fill = { el, chars, lines: [], total: 1, last: -1 };
+    fills.push(f);
+    splitLines(f);
+  });
+  const resplit = () => { fills.forEach(splitLines); schedule(); };
+  document.fonts?.ready.then(resplit);
+  addEventListener('resize', resplit, { passive: true });
+}
+
 let raf = 0;
 const schedule = () => { if (!raf) raf = requestAnimationFrame(frame); };
 
@@ -103,6 +168,23 @@ function frame() {
     const r = l.host.getBoundingClientRect();
     const off = r.top + r.height / 2 - innerHeight / 2;
     l.el.style.translate = `${(cx * l.depth).toFixed(2)}px ${(cy * l.depth + off * l.speed).toFixed(2)}px`;
+  }
+
+  for (const f of fills) {
+    const r = f.el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) continue;
+    // scroll range: element top at viewport bottom -> element center at 40% of the viewport
+    const prog = clamp((innerHeight - r.top) / (innerHeight * 0.6 + r.height / 2), 0, 1);
+    if (prog === f.last) continue;
+    f.last = prog;
+    const time = prog * f.total;
+    f.lines.forEach((line, li) => {
+      const t0 = li * FILL_LINE_STAGGER;
+      line.chars.forEach((c, ci) => {
+        const v = clamp((time - t0 - ci * line.stagger) / FILL_CHAR_DURATION, 0, 1);
+        c.style.opacity = (FILL_MIN + (1 - FILL_MIN) * v).toFixed(3);
+      });
+    });
   }
 
   if (cursor) {
