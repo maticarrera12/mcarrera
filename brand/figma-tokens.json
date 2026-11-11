@@ -1,0 +1,72 @@
+{
+  "color": {
+    "ink": { "$type": "color", "$value": "#101010", "$description": "Primary dark background / text on light" },
+    "paper": { "$type": "color", "$value": "#f3f1eb", "$description": "Primary light background (warm cream)" },
+    "acid": { "$type": "color", "$value": "#c5f52a", "$description": "Primary accent: CTA, logo cross, selection" },
+    "cobalt": { "$type": "color", "$value": "#1f3bd6", "$description": "Secondary accent: blocks, numbers, emphasis" },
+    "graphite": { "$type": "color", "$value": "#292929", "$description": "Surface on ink" },
+    "dim": { "$type": "color", "$value": "#5a5852", "$description": "Secondary text on paper" },
+    "mute": { "$type": "color", "$value": "#a8a59c", "$description": "Secondary text on ink" },
+    "soft": { "$type": "color", "$value": "#cfccc3", "$description": "Lines and dividers" }
+  },
+  "fontFamily": {
+    "display": { "$type": "fontFamilies", "$value": "Anton" },
+    "sans": { "$type": "fontFamilies", "$value": "Archivo" },
+    "mono": { "$type": "fontFamilies", "$value": "IBM Plex Mono" }
+  },
+  "fontWeight": {
+    "display": { "$type": "fontWeights", "$value": "Regular" },
+    "body": { "$type": "fontWeights", "$value": "Regular" },
+    "bodyMedium": { "$type": "fontWeights", "$value": "Medium" },
+    "bodyStrong": { "$type": "fontWeights", "$value": "SemiBold" },
+    "mono": { "$type": "fontWeights", "$value": "Regular" }
+  },
+  "typography": {
+    "label": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{fontFamily.mono}",
+        "fontWeight": "{fontWeight.mono}",
+        "fontSize": "12",
+        "letterSpacing": "0.08em",
+        "textCase": "uppercase"
+      },
+      "$description": "Mono label, usually wrapped like (05) — LABEL"
+    },
+    "display": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{fontFamily.display}",
+        "fontWeight": "{fontWeight.display}",
+        "fontSize": "120",
+        "lineHeight": "92%",
+        "textCase": "uppercase"
+      },
+      "$description": "Anton headline. Social posts: 120-200px at 1080 wide"
+    },
+    "statement": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{fontFamily.sans}",
+        "fontWeight": "{fontWeight.bodyStrong}",
+        "fontSize": "44",
+        "lineHeight": "112%",
+        "letterSpacing": "-0.02em"
+      },
+      "$description": "Large statement paragraph (About section)"
+    },
+    "body": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{fontFamily.sans}",
+        "fontWeight": "{fontWeight.body}",
+        "fontSize": "21",
+        "lineHeight": "155%"
+      }
+    }
+  },
+  "format": {
+    "post": { "$type": "dimension", "$value": "1080x1350", "$description": "Instagram post / carousel 4:5" },
+    "story": { "$type": "dimension", "$value": "1080x1920", "$description": "Story / reel cover 9:16" }
+  }
+}
